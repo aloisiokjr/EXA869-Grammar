@@ -3,5 +3,37 @@
 "Version" = '1.0'
 "Start Symbol" = <Global>
 
+! ----------------------------------------------------------------- Sets                   
+{String Chars} = {Printable} + {HT} - ["]
 
+! ----------------------------------------------------------------- Terminals
+
+Identifier = {Letter}({AlphaNumeric} | [_])*
+
+Number = {Digit}+('.'{Digit}+)?
+       
+CadeCaracters = '"' ({String Chars})* '"'
+              
+Type  = ('int' | 'real' | 'boolean' | 'string')
+     
+RelationalOperator = ( '==' | '>' | '<' | '>=' | '<=' | '!=')               
+                   
+! ----------------------------------------------------------------- Rules
+
+!Escopo global
+<Global> ::= <If Statement>
+          
+!Estrutura do if/else
+<If Statement> ::= 'if''('<Expression>')' 'thesn' '{'<Commands>'}'<Else Statement>
+                
+<Else Statement> ::= 'else''{'<Commands>'}' | <>
+                
+<Commands>::= <If Statement><Commands> | <>
+           
+<Expression> ::= <>
+                  
+! ----------------------------------------------------------------- Exemplo para a estrutura de <Commands>
+
+!<Commands>::= <If Statement><Commands> | <While Statement><Commands> | <Read Statement><Commands>
+!            | <Attribution>';'<Commands> | <Return>';' | <>
           
