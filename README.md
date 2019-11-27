@@ -1,7 +1,7 @@
 # EXA869 - MI - Processadores de Linguagem de Programação (2019.2)
 ## Discentes: 
-1. Aloisio Junior
-2. Alessandro
+1. Alessandro
+2. Aloisio Junior
 3. Aurelio Barreto
 4. Luiza Moura
 5. Valder Soares
