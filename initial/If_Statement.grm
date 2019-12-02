@@ -24,7 +24,7 @@ RelationalOperator = ( '==' | '>' | '<' | '>=' | '<=' | '!=')
 <Global> ::= <If Statement>
           
 !Estrutura do if/else
-<If Statement> ::= 'if''('<Expression>')' 'thesn' '{'<Commands>'}'<Else Statement>
+<If Statement> ::= 'if''('<Expression>')' 'then' '{'<Commands>'}'<Else Statement>
                 
 <Else Statement> ::= 'else''{'<Commands>'}' | <>
                 
