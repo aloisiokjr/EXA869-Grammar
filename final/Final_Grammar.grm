@@ -81,6 +81,7 @@ RelationalOperator = ( '==' | '>' | '<' | '>=' | '<=' | '!=')
 !Escopo para expressões
 <Expression> ::= <>
               
+!VERIFICAR A NECESSIDADE DE CRIAR DOIS TIPO DE CADA COMANDO, UM COM RETORNO(P/FUNÇÃO) E OUTRO SEM RETORNO(P/PEOCEDIMENTO)
 
 !Estrutura do if/else
 <If Statement> ::= 'if''('<Expression>')' 'then' '{'<<Functions Commands>'}'<Else Statement>
