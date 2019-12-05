@@ -1,4 +1,104 @@
-"Name" = 'Final_Grammar' 
+﻿"Name" = 'Final_Grammar' 
 "Author" = 'EXA869-P02'
 "Version" = '1.0'
 "Start Symbol" = <Global>
+               
+! ----------------------------------------------------------------- Sets                   
+{String Chars} = {Printable} + {HT} - ["]
+
+! ----------------------------------------------------------------- Terminals
+
+Identifier = {Letter}({AlphaNumeric} | [_])*
+
+Number = {Digit}+('.'{Digit}+)?
+       
+CadeCaracters = '"' ({String Chars})* '"'
+              
+Type  = ('int' | 'real' | 'boolean' | 'string')
+     
+RelationalOperator = ( '==' | '>' | '<' | '>=' | '<=' | '!=')               
+                   
+! ----------------------------------------------------------------- Rules
+
+!Escopo Global
+
+<Global> ::= <Body Program>
+          | <>
+
+<Body Program> ::= <Global Values> <Functions_Procedures>
+
+                
+!Declaração de constantes e variáeis                
+<Global Values> ::= 'const' '{' <Values Declaration> '}' 'var' '{' <Const Values Declaration> '}'
+                 | 'var' '{' <Values Declaration> '}' 'const' '{' <Var Values Declaration> '}'
+                 | <>
+
+                 
+!Declaração de valores de constantes         
+<Const Values Declaration> ::= Type <Const Values Attribution>
+                            | <Const More Attributions>
+<Const More Attributions> ::= ',' <Const Values Attribution>
+                           | ';' <Const New Declaration>
+<Const Values Attribution> ::= Identifier '=' <Value>                    
+<Const New Declaration> ::= <Const Values Declaration>
+                         | <>
+<Value> ::= Number | CadeCaracters | 'true' | 'false'
+
+         
+!Declaração de valores de variaveis     
+<Var Values Declaration> ::= Type <Var Values Attribution>
+                          | <Var More Attributions>
+<Var More Attributions> ::= ',' Identifier
+                         | ';' <Var New Declaration>
+<Var New Declaration> ::= <Var Values Declaration>
+                       | <>
+
+                          
+!Escopo para a declaração de funções e procedimentos                 
+<Functions_Procedures> ::= 'function' Type Identifier '(' <Param List> ')' '{' <Functions Commands> '}' <Functions_Procedures>
+                        | 'procedure' Identifier '(' <Param List> ')' '{' <Procedure Commands> '}' <Functions_Procedures>
+                        | <>
+
+                        
+!Escopo da lista de parâmetros
+<Param List> ::= Type Identifier <More Param>
+              | <>
+              
+<More Param> ::= ',' Type Identifier <More Param>
+              |<>
+
+              
+!Escopo de comandos possíveis para funções                 
+<Functions Commands> ::= <If Statement> <Functions Commands> | <While Statement> <Functions Commands> | <Read Statement> <Functions Commands>
+                      | <Attribution> ';' <Functions Commands> | <Call Procedure> <Functions Commands> | <Return> ';' | <>
+
+                      
+!Escopo de comandos possíveis para funções                      
+<Procedures Commands> ::= <If Statement> <Procedures Commands> | <While Statement> <Procedures Commands> | <Read Statement> <Procedures Commands>
+                       | <Attribution> ';' <Procedures Commands> | <Call Procedure> <Procedures Commands> | <>
+            
+
+!Escopo para expressões
+<Expression> ::= <>
+              
+
+!Estrutura do if/else
+<If Statement> ::= 'if''('<Expression>')' 'then' '{'<<Functions Commands>'}'<Else Statement>
+                
+<Else Statement> ::= 'else''{'<Functions Commands>'}' | <>
+              
+
+!Estrutura do while
+<While Statement> ::= <>
+                   
+
+!Estrutura do read
+<Read Statement> ::= <>
+                   
+
+!Escopo da atribuição
+<Attribution> ::= <>
+               
+
+!Chamada de procedimentos
+<Call Procedure> ::= <>
