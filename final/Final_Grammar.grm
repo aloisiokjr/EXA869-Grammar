@@ -64,7 +64,7 @@ RelationalOperator = ( '==' | '>' | '<' | '>=' | '<=' | '!=')
 <Param List> ::= Type Identifier <More Param>
               | <>
               
-<More Param> ::= ',' Type Identifier <More Param>
+<More Param> ::= ',' <Param List>
               |<>
 
               
