@@ -1,0 +1,25 @@
+ID = {Letter}({AlphaNumeric}|[_])*
+NUMBER = '-'?{Number}+('.'{Number}+)?
+STRING = '"'({Printable})*'"'
+
+<Value> ::= <ConstValue>
+          | ID
+<ConstValue> ::= NUMBER
+               | STRING
+               | 'true'
+               | 'false'
+
+"Start Symbol" = <Statement>
+               
+<Statement> ::= <Assign> <Statement>
+              | 
+
+<Assign> ::= 'global' '.' ID <MatrAssign> '=' <Assign2>
+               | ID <MatrAssign> '=' <Assign2>
+<Assign2> ::= 'global' '.' ID <MatrAssign>
+                | <Value>
+                
+<MatrAssign> ::= '[' <MatrAssign2>
+               | 
+<MatrAssign2> ::= NUMBER ']' <MatrAssign>
+                | ID ']' <MatrAssign>
