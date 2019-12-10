@@ -1,0 +1,53 @@
+"Name"     = 'Print - Read'
+"Author"   = 'Velder Soares'
+"Version"  = 'The version of the grammar and/or language'
+"About"    = 'A short description of the grammar'
+
+"Start Symbol" = <Program>
+
+! -------------------------------------------------
+! Character Sets
+! -------------------------------------------------
+
+{String Chars} = {Printable} + {HT} + {LF} + {CR} - ["\]
+
+! -------------------------------------------------
+! Terminals
+! -------------------------------------------------
+
+Identifier    = {Letter}{AlphaNumeric}*
+CadeCaracters = '"' ( {String Chars} | '\' {Printable} )* '"'
+
+! -------------------------------------------------
+! Rules
+! -------------------------------------------------
+
+! The grammar starts below
+<Program> ::= <Print Statement> <Program>
+          | <Read Statement> <Program>
+          | <>
+
+
+<Print Statement> ::= print'('<Print Params>')'';'
+
+<Print Params> ::= CadeCaracters <More Print Params>
+          | <Vector> <More Print Params>
+          | <Matriz> <More Print Params>
+          | <Const> <More Print Params>
+          | Identifier <More Print Params>
+          | <CompositeType> <More Print Params>
+
+
+<More Print Params> ::= ',' <Print Params>
+          | <>
+
+<Read Statement> ::= read'('<Read Params>')'';'
+
+<Read Params> ::= <Vector> <More Read Params>
+          | <Matriz> <More Read Params>
+          | <CompositeType> <More Read Params>
+          | <Identifier> <More Read Params>
+
+
+<More Read Params> ::= ',' <Read Params>
+          | <>
