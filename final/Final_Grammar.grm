@@ -29,8 +29,8 @@ RelationalOperator = ( '==' | '>' | '<' | '>=' | '<=' | '!=')
 
                 
 !Declaração de constantes e variáeis                
-<Global Values> ::= 'const' '{' <Values Declaration> '}' 'var' '{' <Const Values Declaration> '}'
-                 | 'var' '{' <Values Declaration> '}' 'const' '{' <Var Values Declaration> '}'
+<Global Values> ::= 'const' '{' <Const Values Declaration> '}' 'var' '{' <Var Values Declaration> '}'
+                 | 'var' '{' <Var Values Declaration> '}' 'const' '{' <Const Values Declaration> '}'
                  | <>
 
                  
