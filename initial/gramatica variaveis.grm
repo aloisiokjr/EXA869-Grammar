@@ -1,0 +1,68 @@
+"Name"    = 'Gramatica declaracoes'
+"Author"  = 'Aurelio'
+"Version" = '3.0'
+"About"   = 'Esta e uma gramatica para declaracoes de (var, const, vetor, matriz, struct)'
+
+!sets
+{AlphaNumeric1} = {AlphaNumeric} + [_]
+
+
+! terminais
+Identifier    = {Letter}{AlphaNumeric1}*
+Digito = {Number}+
+
+
+"Start Symbol" = <Start>
+!rules
+<Start>                  ::=   <Type_Var>
+                             | 'typedef' <Type_Var>
+
+
+<Type_Var>               ::=   'var' <IDE_Variables> 
+                             | 'var' <Vector> <IDE_Variables>
+                             | 'var' <Matriz> <IDE_Variables>
+                             | 'int' <IDE_Variables> 
+                             | 'int' <Vector> <IDE_Variables>
+                             | 'int' <Matriz> <IDE_Variables>
+                             | 'real' <IDE_Variables> 
+                             | 'real' <Vector> <IDE_Variables>
+                             | 'real' <Matriz> <IDE_Variables>
+                             | 'string' <IDE_Variables> 
+                             | 'string' <Vector> <IDE_Variables>
+                             | 'string' <Matriz> <IDE_Variables>
+                             | 'const' <IDE_Variables> 
+                             | 'const' <Vector> <IDE_Variables>
+                             | 'const' <Matriz> <IDE_Variables>
+                             | 'boolean' <IDE_Variables> 
+                             | 'boolean' <Vector> <IDE_Variables>
+                             | 'boolean' <Matriz> <IDE_Variables>
+                             | 'struct' <IDE_Variables_Struct>
+                             | 'struct' <Vector> <IDE_Variables_Struct>
+                             | 'struct' <Matriz> <IDE_Variables_Struct>
+                             
+<IDE_Variables>          ::=  '{' Identifier <Repeat_Var> '}'';'
+                          
+<Repeat_Var>             ::=  ',' Identifier <Repeat_Var>
+                             | <> 
+                             
+<Vector>                 ::=  '[' Digito']'
+                             | '[' Identifier']'                        
+                          
+<Matriz>                 ::=  '[' Digito ']''[' Digito']'
+                             | '[' Digito ']''[' Identifier']'
+                             | '[' Identifier ']''[' Digito']'
+                             | '[' Identifier ']''[' Identifier']'
+                                                                                    
+                          
+<IDE_Variables_Struct>   ::=   Identifier <Body_Struct> 
+                             | Identifier 'extends' Identifier <Body_Struct>                              
+                             
+<Body_Struct>            ::=  '{' <Type_Var> <More_Var_BodyStruct> '}'';'
+                          
+<More_Var_BodyStruct>    ::= <Type_Var> <More_Var_BodyStruct>
+                             | <>                            
+                                                    
+
+
+
+
