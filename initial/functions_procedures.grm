@@ -1,0 +1,61 @@
+﻿"Name"     = 'Funçoes e procedimentos'
+"Author"   = 'Alessandro Costa'
+"Version"  = 'alpha 1'
+"About"    = 'Teste de gramatica'
+
+"Start Symbol" = <Global>
+
+! ----------------------------------------------------------------- Sets                   
+{String Chars} = {Printable} + {HT} - ["]
+
+! ----------------------------------------------------------------- Terminals
+
+Identifier = {Letter}({AlphaNumeric} | [_])*
+
+Number = {Digit}+('.'{Digit}+)?
+       
+CadeCaracters = '"' ({String Chars})* '"'
+              
+Type  = ('int' | 'real' | 'boolean' | 'string')
+     
+RelationalOperator = ( '==' | '>' | '<' | '>=' | '<=' | '!=')               
+                   
+! ----------------------------------------------------------------- Rules
+
+
+! The grammar starts below
+<Global> ::= <Functions_Procedures>
+         | <>
+
+<Functions_Procedures> ::= function type Identifier '(' <Param List> ')' '{' <Functions Commands> '}' <Functions_Procedures>
+            | procedure Identifier '('<Param List>')' '{' <Procedure Commands> '}' <Functions_Procedures>
+            | <>
+            
+<Param List> ::= Type Identifier <More Param>
+              | <>
+              
+<More Param> ::= ',' <Param List>
+              | <>
+              
+!-------- Alterei Call procedure para Call Functions_Procedure
+<Functions Commands> ::= <If Statement> <Functions Commands> | <While Statement> <Functions Commands> | <Read Statement> <Functions Commands>
+                      | <Attribution> ';' <Functions Commands> | <Var Values Declaration> <Procedures Commands> | <Attribution> <Functions Commands>
+                      | <Call Functions_Procedure> <Functions Commands> | <Print Statement> <Functions Commands> | <Return> ';' | <> 
+
+                                           
+<Procedures Commands> ::= <If Statement> <Procedures Commands> | <While Statement> <Procedures Commands> | <Read Statement> <Procedures Commands>
+                       | <Attribution> ';' <Procedures Commands> | <Var Values Declaration> <Procedures Commands> | <Attribution> <Functions Commands>
+                       | <Call Functions_Procedure> <Procedures Commands> | <Print Statement> <Procedures Commands> <>
+                       
+<Call Functions_Procedure> ::= Identifier '(' <Real Param List> ')' ';'
+
+!----- Nova Regra
+<Real Param List> ::= <Value> <More Real Param>
+                    | Identifier <More Real Param>
+
+!----- Nova Regra                    
+<More Real Param> ::= ',' <Real Param List>
+                   | <>
+                   
+<Return> ::= <Value> !-- <Expressions> ??
+           
