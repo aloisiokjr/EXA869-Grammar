@@ -8,11 +8,13 @@
 
 ! ----------------------------------------------------------------- Terminals
 
+{String Chars} = {Printable} + {HT} + {LF} + {CR} - ["\]
+               
 Identifier = {Letter}({AlphaNumeric} | [_])*
 
 Number = {Digit}+('.'{Digit}+)?
        
-CadeCaracters = '"' ({String Chars})* '"'
+CadeCaracters = '"' ( {String Chars} | '\' {Printable} )* '"'
               
 Type  = ('int' | 'real' | 'boolean' | 'string')
      
@@ -55,8 +57,8 @@ RelationalOperator = ( '==' | '>' | '<' | '>=' | '<=' | '!=')
 
                           
 !Escopo para a declaração de funções e procedimentos                 
-<Functions_Procedures> ::= 'function' Type Identifier '(' <Param List> ')' '{' <Functions Commands> '}' <Functions_Procedures>
-                        | 'procedure' Identifier '(' <Param List> ')' '{' <Procedure Commands> '}' <Functions_Procedures>
+<Functions_Procedures> ::= 'function' Type Identifier '(' <Param List> ')' '{' 'var' '{' <Var Values Declaration> '}' <Commands> '}' <Functions_Procedures>
+                        | 'procedure' Identifier '(' <Param List> ')' '{' 'var' '{' <Var Values Declaration> '}' <Commands> <Return> ';' '}' <Functions_Procedures>
                         | <>
 
                         
@@ -68,25 +70,19 @@ RelationalOperator = ( '==' | '>' | '<' | '>=' | '<=' | '!=')
               |<>
 
               
-!Escopo de comandos possíveis para funções                 
-<Functions Commands> ::= <If Statement> <Functions Commands> | <While Statement> <Functions Commands> | <Read Statement> <Functions Commands>
-                      | <Attribution> ';' <Functions Commands> | <Call Procedure> <Functions Commands> | <Return> ';' | <>
+!Escopo de comandos possíveis para funções e procedimentos                
+<Commands> ::= <If Statement> <Commands> | <While Statement> <Commands> | <Read Statement> <Commands> | <Print Statement> <Commands>
+                      | <Attribution> <Commands> | <Call Procedure> <Commands> | <>
 
                       
-!Escopo de comandos possíveis para funções                      
-<Procedures Commands> ::= <If Statement> <Procedures Commands> | <While Statement> <Procedures Commands> | <Read Statement> <Procedures Commands>
-                       | <Attribution> ';' <Procedures Commands> | <Call Procedure> <Procedures Commands> | <>
-            
-
 !Escopo para expressões
 <Expression> ::= <>
               
-!VERIFICAR A NECESSIDADE DE CRIAR DOIS TIPO DE CADA COMANDO, UM COM RETORNO(P/FUNÇÃO) E OUTRO SEM RETORNO(P/PEOCEDIMENTO)
 
 !Estrutura do if/else
-<If Statement> ::= 'if''('<Expression>')' 'then' '{'<<Functions Commands>'}'<Else Statement>
+<If Statement> ::= 'if''('<Expression>')' 'then' '{'<Commands>'}'<Else Statement>
                 
-<Else Statement> ::= 'else''{'<Functions Commands>'}' | <>
+<Else Statement> ::= 'else''{'<Commands>'}' | <>
               
 
 !Estrutura do while
@@ -95,6 +91,10 @@ RelationalOperator = ( '==' | '>' | '<' | '>=' | '<=' | '!=')
 
 !Estrutura do read
 <Read Statement> ::= <>
+                  
+
+!Estrutura do print
+<Print Statement> ::= <>
                    
 
 !Escopo da atribuição
