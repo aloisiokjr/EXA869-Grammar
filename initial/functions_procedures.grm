@@ -18,7 +18,7 @@ CadeCaracters = '"' ({String Chars})* '"'
               
 Type  = ('int' | 'real' | 'boolean' | 'string')
      
-RelationalOperator = ( '==' | '>' | '<' | '>=' | '<=' | '!=')               
+RelationalOperator = ( '==' | '>' | '<' | '>=' | '<=' | '!=')                
                    
 ! ----------------------------------------------------------------- Rules
 
@@ -27,7 +27,7 @@ RelationalOperator = ( '==' | '>' | '<' | '>=' | '<=' | '!=')
 <Global> ::= <Functions_Procedures> <Global>
          | <>
 
-<Functions_Procedures> ::= 'function' type Identifier '(' <Param List> ')' '{' <Function Procedure Body> 'return' <Return> ';' '}'
+<Functions_Procedures> ::= 'function' type Identifier '(' <Param List> ')' '{' <Function Procedure Body> <Return> '}'
                          | 'procedure' Identifier '('<Param List>')' '{' <Function Procedure Body>  '}'
             
 <Param List> ::= Type Identifier <More Param>
@@ -45,14 +45,22 @@ RelationalOperator = ( '==' | '>' | '<' | '>=' | '<=' | '!=')
 
 !----- Nova Regra
 <Real Param List> ::= <Value> <More Real Param>
-                    | Identifier <More Real Param>
+                    | <Call Variable> <More Real Param>
+                    ! Regra no arquivo de assingnments| <MatrizAssing> <More Real Param>
+                    | <>
 
 !----- Nova Regra                    
 <More Real Param> ::= ',' <Real Param List>
                    | <>
                    
+<Call Variable> ::= 'global.' Identifier
+                   |'local.'  Identifier
+                   | Identifier
+                   
 <Value> ::= Number | CadeCaracters | 'true' | 'false'
                    
-<Return> ::=  <Value>
-            | Identifier
-           !| <Expressions>
+<Return> ::= 'return' <Return Values> ';'
+          
+<Return Values> ::= <Value>
+                  | <Call Variable>
+                 !| <Expressions>
