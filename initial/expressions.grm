@@ -3,7 +3,7 @@
 "Version"  = 'The version of the grammar and/or language'
 "About"    = 'A short description of the grammar'
 
-"Start Symbol" = <Program>
+"Start Symbol" = <Expressions>
 
 ! -------------------------------------------------
 ! Character Sets
@@ -38,13 +38,16 @@ Times_division = ( '*' | '/' )
 ! -------------------------------------------------
 
 ! The grammar starts below
-<Program> ::= <SuperExp> Logical_Operators <SuperExp>
-            | <SuperExp>
-            | <Expressao>
+<Expressions> ::= <LogicalExp>
+                | <AritmeticExp>
 
-<SuperExp> ::= <Expressao> RelationalOperator <Expressao>
+<LogicalExp> ::= <RelationalExp> Logical_Operators <LogicalExp>
+                | '(' <LogicalExp> ')'
+                | <RelationalExp>
 
-<Expressao> ::= <Expressao> Plus_Minus <Termo>
+<RelationalExp> ::= <AritmeticExp> RelationalOperator <AritmeticExp>
+
+<AritmeticExp> ::= <AritmeticExp> Plus_Minus <Termo>
              | <Termo>
              
 <Termo> ::= <Termo> Times_division <OpUnario>
@@ -61,7 +64,7 @@ Times_division = ( '*' | '/' )
  <OpUnario> ::= Unary_Operators <OpUnario>
               | <Valor>
 
-<Valor> ::= '(' <Expressao> ')'
+<Valor> ::= '(' <AritmeticExp> ')'
           | Number 
           | Identifier
 
