@@ -1,0 +1,52 @@
+"Name" = 'Operadores'
+"Author" = 'Luiza'
+"Version" = '2.0'
+"Start Symbol" = <OperacaoDeAtribuicao>
+
+! -------------------------------------------------
+! Precedência de Operadores
+! -------------------------------------------------
+
+<OperacaoDeAtribuicao> ::= Identificador '=' <Expressao>
+                         | <Expressao>
+
+<Expressao> ::= <Operacao> <OpSoma>
+<Operacao> ::= <OpUnario> <OpMultiplicacao>
+
+<OpSoma> ::= '+' <Operacao> <OpSoma>
+           | '-' <Operacao> <OpSoma>
+           | <>
+<OpMultiplicacao> ::= '*' <OpUnario> <OpMultiplicacao>
+                    | '/' <OpUnario> <OpMultiplicacao>
+                    | <>
+<OpUnario> ::= '!' <OpUnario>
+             | '++' <OpUnario>
+             | '--' <OpUnario>
+             | <Valor>
+
+<Valor> ::= '(' <Expressao> ')'
+          | Digitos
+
+! -------------------------------------------------------------------
+! Operação relacional e Lógica
+! -------------------------------------------------------------------
+
+<ExpressaoRelacional> ::= <OpLogica>
+                        | '!' <OpLogica> 
+
+<OpLogica> ::= <OpLogica> <OpLogicaAux> <OpRelacional>
+             | <OpRelacional>
+<OpLogicaAux> ::= '&&'
+                | '||'
+
+<OpRelacional> ::= <OpRelacional> <OpRelacionalAux> <ValorRelacional>
+                 | <ValorRelacional>
+<OpRelacionalAux> ::= '!='
+                    | '=='
+                    | '<'
+                    | '<='
+                    | '>'
+                    | '>='
+
+<ValorRelacional> ::= '(' <ExpressaoRelacional> ')'
+                    | Digitos
