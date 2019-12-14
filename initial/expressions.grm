@@ -1,0 +1,67 @@
+"Name"     = 'Enter the name of the grammar'
+"Author"   = 'Enter your name'
+"Version"  = 'The version of the grammar and/or language'
+"About"    = 'A short description of the grammar'
+
+"Start Symbol" = <Program>
+
+! -------------------------------------------------
+! Character Sets
+! -------------------------------------------------
+
+{String Chars} = {Printable} + {HT} - ["]
+
+! -------------------------------------------------
+! Terminals
+! -------------------------------------------------
+
+Identifier = {Letter}({AlphaNumeric} | [_])*
+
+Number = {Digit}+('.'{Digit}+)?
+       
+CadeCaracters = '"' ({String Chars})* '"'
+              
+Type  = ('int' | 'real' | 'boolean' | 'string')
+      
+Unary_Operators = ( '!' | '++' | '--' )
+                
+Logical_Operators = ( '&&' | '||' )
+     
+RelationalOperator = ( '==' | '>' | '<' | '>=' | '<=' | '!=')
+                   
+Plus_Minus = ( '+' | '-' )
+           
+Times_division = ( '*' | '/' )
+
+! -------------------------------------------------
+! Rules
+! -------------------------------------------------
+
+! The grammar starts below
+<Program> ::= <SuperExp> Logical_Operators <SuperExp>
+            | <SuperExp>
+            | <Expressao>
+
+<SuperExp> ::= <Expressao> RelationalOperator <Expressao>
+
+<Expressao> ::= <Expressao> Plus_Minus <Termo>
+             | <Termo>
+             
+<Termo> ::= <Termo> Times_division <OpUnario>
+         | <OpUnario>
+
+!<Operacao> ::= <OpUnario> <OpMultiplicacao>
+
+!<OpSoma> ::= '+' <Operacao> <OpSoma>
+!           | '-' <Operacao> <OpSoma>
+!           | <>
+!<OpMultiplicacao> ::= '*' <OpUnario> <OpMultiplicacao>
+!                    | '/' <OpUnario> <OpMultiplicacao>
+!                     | <>
+ <OpUnario> ::= Unary_Operators <OpUnario>
+              | <Valor>
+
+<Valor> ::= '(' <Expressao> ')'
+          | Number 
+          | Identifier
+
