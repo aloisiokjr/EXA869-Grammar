@@ -23,7 +23,7 @@ CadeCaracters = '"' ({String Chars})* '"'
               
 Type  = ('int' | 'real' | 'boolean' | 'string')
       
-Unary_Operators = ( '!' | '++' | '--' )
+Unary_Operators = ( '++' | '--' )
                 
 Logical_Operators = ( '&&' | '||' )
      
@@ -46,6 +46,7 @@ Times_division = ( '*' | '/' )
                 | <RelationalExp>
 
 <RelationalExp> ::= <AritmeticExp> RelationalOperator <AritmeticExp>
+                  | '(' <RelationalExp> ')'
 
 <AritmeticExp> ::= <AritmeticExp> Plus_Minus <Termo>
              | <Termo>
@@ -57,14 +58,18 @@ Times_division = ( '*' | '/' )
 
 !<OpSoma> ::= '+' <Operacao> <OpSoma>
 !           | '-' <Operacao> <OpSoma>
-!           | <>
+!           | <> 
 !<OpMultiplicacao> ::= '*' <OpUnario> <OpMultiplicacao>
 !                    | '/' <OpUnario> <OpMultiplicacao>
 !                     | <>
- <OpUnario> ::= Unary_Operators <OpUnario>
+ <OpUnario> ::= Unary_Operators <Valor>
+              | '!' <Call Variable>
               | <Valor>
 
 <Valor> ::= '(' <AritmeticExp> ')'
           | Number 
-          | Identifier
+          | <Call Variable>
 
+<Call Variable> ::= 'global.' Identifier
+                   |'local.'  Identifier
+                   | Identifier
