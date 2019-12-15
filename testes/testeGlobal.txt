@@ -1,0 +1,42 @@
+const {
+    int a = 4;
+    boolean aux1 = true;
+    float numeroAux = 4.478;
+    string auxString = "Testando";
+}
+var {
+    int auxNum, testeNum, next;
+    string auxString = "Testando";
+}
+
+function start (){
+    var {
+        int numLocal = 3;
+        float numAux = 1.1;
+    }
+    while (numLocal a < 40) {
+        a = mudaNum (a);
+    }
+
+    aumentaNum(a);
+    return null;
+}
+
+function mudaNum (float a){
+    if (a <= 10) then {
+        a++;
+    } else {
+        if (a <= 20) then {
+            a = a + 2;
+        } else {
+            if (a <= 30) then {
+                a = a + 3;
+            }
+        }
+    }
+    return a;
+}
+
+procedure aumentaNum (int a){
+    a = a + 20;
+}

@@ -3,10 +3,10 @@
 "Version" = '1.0'
 "Start Symbol" = <Global>
                
-! ----------------------------------------------------------------- Sets                   
+! ------------------------------------------------------------------------------------------------------------------------- SETS                   
 {String Chars} = {Printable} + {HT} - ["]
 
-! ----------------------------------------------------------------- Terminals
+! ------------------------------------------------------------------------------------------------------------------------- TERMINALS
 
 {String Chars} = {Printable} + {HT} + {LF} + {CR} - ["\]
                
@@ -14,13 +14,23 @@ Identifier = {Letter}({AlphaNumeric} | [_])*
 
 Number = {Digit}+('.'{Digit}+)?
        
+IntegerNumber = {Number}{Number}*
+       
 CadeCaracters = '"' ( {String Chars} | '\' {Printable} )* '"'
               
 Type  = ('int' | 'real' | 'boolean' | 'string')
+         
+Unary_Operators = ( '++' | '--' )
+                
+Logical_Operators = ( '&&' | '||' )
      
-RelationalOperator = ( '==' | '>' | '<' | '>=' | '<=' | '!=')               
+RelationalOperator = ( '==' | '>' | '<' | '>=' | '<=' | '!=')
                    
-! ----------------------------------------------------------------- Rules
+Plus_Minus = ( '+' | '-' )
+           
+Times_division = ( '*' | '/' )
+                   
+! ------------------------------------------------------------------------------------------------------------------------- RULES
 
 !Escopo Global
 
@@ -29,77 +39,172 @@ RelationalOperator = ( '==' | '>' | '<' | '>=' | '<=' | '!=')
 
 <Body Program> ::= <Global Values> <Functions_Procedures>
 
-                
+! -------------------------------------------------------------------------------------------------------------------------                
 !Declaração de constantes e variáeis                
 <Global Values> ::= 'const' '{' <Const Values Declaration> '}' 'var' '{' <Var Values Declaration> '}'
                  | 'var' '{' <Var Values Declaration> '}' 'const' '{' <Const Values Declaration> '}'
                  | <>
 
-                 
+! -------------------------------------------------------------------------------------------------------------------------                 
 !Declaração de valores de constantes         
-<Const Values Declaration> ::= Type <Const Values Attribution>
-                            | <Const More Attributions>
-<Const More Attributions> ::= ',' <Const Values Attribution>
-                           | ';' <Const New Declaration>
-<Const Values Attribution> ::= Identifier '=' <Value>                    
-<Const New Declaration> ::= <Const Values Declaration>
-                         | <>
-<Value> ::= Number | CadeCaracters | 'true' | 'false'
+<Const Values Declaration> ::= Type <Const Values Attribution> <Const More Attributions>
+                            | <>
+                            
+<Const More Attributions> ::= ',' <Const Values Attribution> <Const More Attributions>
+                           | ';' <Const Values Declaration>
+                           
+<Const Values Attribution> ::= Identifier '=' <Value Const>  
+                                              
+<Value Const> ::= Number | CadeCaracters | 'true' | 'false'
 
-         
+! -------------------------------------------------------------------------------------------------------------------------         
 !Declaração de valores de variaveis     
-<Var Values Declaration> ::= Type <Var Values Attribution>
-                          | <Var More Attributions>
-<Var More Attributions> ::= ',' Identifier
-                         | ';' <Var New Declaration>
-<Var New Declaration> ::= <Var Values Declaration>
-                       | <>
-
+<Var Values Declaration> ::= Type <Var Values Attribution> <Var More Attributions>
+                          | <>
                           
+<Var More Attributions> ::= ',' <Var Values Attribution> <Var More Attributions>
+                         | ';' <Var Values Declaration>
+                         
+<Var Values Attribution> ::= Identifier <Array Verification>
+                          | <Struct Builder> ! DEPENDENTE DE DESENVOLVIMENTO
+                          
+<Array Verification> ::= '['IntegerNumber']'<DoubleArray> | <>
+                      
+<DoubleArray> ::= '['IntegerNumber']' <DoubleArray> | <>
+
+! -------------------------------------------------------------------------------------------------------------------------         
+!Escopo para a construção de structs    
+<Struct Builder> ::= 
+                  
+! -------------------------------------------------------------------------------------------------------------------------                          
 !Escopo para a declaração de funções e procedimentos                 
 <Functions_Procedures> ::= 'function' Type Identifier '(' <Param List> ')' '{' 'var' '{' <Var Values Declaration> '}' <Commands> '}' <Functions_Procedures>
-                        | 'procedure' Identifier '(' <Param List> ')' '{' 'var' '{' <Var Values Declaration> '}' <Commands> <Return> ';' '}' <Functions_Procedures>
+                        | 'procedure' Identifier '(' <Param List> ')' '{' 'var' '{' <Var Values Declaration> '}' <Commands> <Return> '}' <Functions_Procedures>
                         | <>
 
-                        
 !Escopo da lista de parâmetros
 <Param List> ::= Type Identifier <More Param>
+              |
               | <>
               
 <More Param> ::= ',' <Param List>
               |<>
 
-              
+! -------------------------------------------------------------------------------------------------------------------------              
 !Escopo de comandos possíveis para funções e procedimentos                
 <Commands> ::= <If Statement> <Commands> | <While Statement> <Commands> | <Read Statement> <Commands> | <Print Statement> <Commands>
-                      | <Attribution> <Commands> | <Call Procedure> <Commands> | <>
+            | <Attribution> <Commands> | <Call Procedure> <Commands> | <>
 
-                      
+! -------------------------------------------------------------------------------------------------------------------------                      
 !Escopo para expressões
-<Expression> ::= <>
-              
+<Expression> ::= <LogicalExp>
 
+<LogicalExp> ::= <RelationalExp> Logical_Operators <LogicalExp>
+              | '(' <LogicalExp> ')'
+              | <RelationalExp>
+
+<RelationalExp> ::= <AritmeticExp> <InequalExp> <EqualExp>                  
+               
+<EqualExp> ::= RelationalLessPrec <AritmeticExp> <InequalExp> <EqualExp>
+            | <>
+
+<InequalExp> ::= RelationalMorePrec <AritmeticExp> <InequalExp> 
+              | <> 
+                         
+<AritmeticExp>  ::= <Operation> <OpSum>
+                 | '(' <RelationalExp> ')'
+                 
+<Operation> ::= <OpUnary> <OpMultiplication>
+
+<OpSum> ::= Plus_Minus <Operation> <OpSum>
+         | <>
+           
+<OpMultiplication> ::= Times_division <OpUnary> <OpMultiplication>
+                    | <>
+                    
+<OpUnary> ::= Unary_Operators <Value2>
+           | '!' <Call Variable>
+           | <Value2>
+
+<Value2> ::= '(' <AritmeticExp> ')'
+          | Number 
+          | <Call Variable>
+
+<Call Variable> ::= 'global.' Identifier
+                 |'local.' Identifier
+                 | Identifier
+              
+! -------------------------------------------------------------------------------------------------------------------------
 !Estrutura do if/else
 <If Statement> ::= 'if''('<Expression>')' 'then' '{'<Commands>'}'<Else Statement>
                 
 <Else Statement> ::= 'else''{'<Commands>'}' | <>
               
-
+! -------------------------------------------------------------------------------------------------------------------------
 !Estrutura do while
-<While Statement> ::= <>
+<while Statement> ::= 'while''('<Expression>')' '{'<Commands>'}'         
                    
-
+! -------------------------------------------------------------------------------------------------------------------------
 !Estrutura do read
-<Read Statement> ::= <>
+<Read Statement> ::= read'('<Read Params>')'';'
                   
+<Read Params> ::= <Array Param> <More Read Params>
+               | <CompositeType Param> <More Read Params>
+               | <Identifier Param> <More Read Params>
+               | <>
 
+<More Read Params> ::= ',' <Read Params>
+                    | <>
+                  
+! -------------------------------------------------------------------------------------------------------------------------
 !Estrutura do print
-<Print Statement> ::= <>
+<Print Statement> ::= print'('<Print Params>')'';'
                    
+<Print Params> ::= CadeCaracters <More Print Params>
+                | <Array Param> <More Print Params>
+                | <Identifier Param> <More Print Params>
+                | <CompositeType Param> <More Print Params>
+                | <>
 
+<More Print Params> ::= ',' <Print Params>
+                     | <>
+                     
+<Identifier Param> ::= 'global' '.' Identifier
+                    | 'local' '.' Identifier
+                    | Identifier
+                    
+<Argument Array> ::= IntegerNumber | <Identifier Param>
+
+<Array Param> ::= Identifier '[' <Argument Array> ']' <More Array Column>
+
+<More Array Column> ::= '[' <Argument Array> ']' <More Array Column> | <>
+
+<CompositeType Param> ::= Identifier <Array Verification> '.' Identifier <Array Verification>
+                   
+! -------------------------------------------------------------------------------------------------------------------------
 !Escopo da atribuição
 <Attribution> ::= <>
                
-
+! -------------------------------------------------------------------------------------------------------------------------
 !Chamada de procedimentos
-<Call Procedure> ::= <>
+<Call Procedure> ::= Identifier '(' <Real Param List> ')' ';'
+
+<Real Param List> ::= <Value Param> <More Real Param>
+                    | <Identifier Param> <More Real Param>
+                    | <Array Param> <More Real Param>
+                    | <CompositeType Param>
+                    | <>
+                
+<More Real Param> ::= ',' <Real Param List>
+                   | <>
+                   
+<Value Param> ::= Identifier | Number | CadeCaracters | 'true' | 'false'
+         
+! -------------------------------------------------------------------------------------------------------------------------
+!Chamada do retorno
+                   
+<Return> ::= 'return' <Return Values> ';'
+          
+<Return Values> ::= <Value Param>
+                  | <Identifier Param>
+                 !| <Expressions>
