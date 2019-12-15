@@ -1,4 +1,4 @@
-"Name"     = 'Enter the name of the grammar'
+!"Name"     = 'Enter the name of the grammar'
 "Author"   = 'Enter your name'
 "Version"  = 'The version of the grammar and/or language'
 "About"    = 'A short description of the grammar'
@@ -18,16 +18,14 @@
 Identifier = {Letter}({AlphaNumeric} | [_])*
 
 Number = {Digit}+('.'{Digit}+)?
-       
-CadeCaracters = '"' ({String Chars})* '"'
-              
-Type  = ('int' | 'real' | 'boolean' | 'string')
       
 Unary_Operators = ( '++' | '--' )
                 
 Logical_Operators = ( '&&' | '||' )
      
-RelationalOperator = ( '==' | '>' | '<' | '>=' | '<=' | '!=')
+RelationalMorePrec = ( '>' | '<' | '>=' | '<=' )
+                   
+RelationalLessPrec = ( '==' | '!=' )
                    
 Plus_Minus = ( '+' | '-' )
            
@@ -39,16 +37,21 @@ Times_division = ( '*' | '/' )
 
 ! The grammar starts below
 <Expressions> ::= <LogicalExp>
-                | <AritmeticExp>
 
 <LogicalExp> ::= <RelationalExp> Logical_Operators <LogicalExp>
                 | '(' <LogicalExp> ')'
                 | <RelationalExp>
 
-<RelationalExp> ::= <AritmeticExp> RelationalOperator <AritmeticExp>
-                  | '(' <RelationalExp> ')'
+<RelationalExp> ::= <AritmeticExp> <InequalExp> <EqualExp>                  
+               
+<EqualExp> ::= RelationalLessPrec <AritmeticExp> <InequalExp> <EqualExp>
+            | <>
 
+<InequalExp> ::= RelationalMorePrec <AritmeticExp> <InequalExp> 
+              | <> 
+                         
 <AritmeticExp>  ::= <Operacao> <OpSoma>
+                 | '(' <RelationalExp> ')'
                  
 <Operacao> ::= <OpUnario> <OpMultiplicacao>
 
