@@ -48,20 +48,22 @@ Times_division = ( '*' | '/' )
 <RelationalExp> ::= <AritmeticExp> RelationalOperator <AritmeticExp>
                   | '(' <RelationalExp> ')'
 
-<AritmeticExp> ::= <AritmeticExp> Plus_Minus <Termo>
-             | <Termo>
+!<AritmeticExp> ::= <AritmeticExp> Plus_Minus <Termo>
+!             | <Termo>
              
-<Termo> ::= <Termo> Times_division <OpUnario>
-         | <OpUnario>
+!<Termo> ::= <Termo> Times_division <OpUnario>
+!         | <OpUnario>
 
-!<Operacao> ::= <OpUnario> <OpMultiplicacao>
+<AritmeticExp>  ::= <Operacao> <OpSoma>
+                 
+<Operacao> ::= <OpUnario> <OpMultiplicacao>
 
-!<OpSoma> ::= '+' <Operacao> <OpSoma>
-!           | '-' <Operacao> <OpSoma>
-!           | <> 
-!<OpMultiplicacao> ::= '*' <OpUnario> <OpMultiplicacao>
-!                    | '/' <OpUnario> <OpMultiplicacao>
-!                     | <>
+<OpSoma> ::= Plus_Minus <Operacao> <OpSoma>
+           | <>
+           
+<OpMultiplicacao> ::= Times_division <OpUnario> <OpMultiplicacao>
+                    | <>
+                    
  <OpUnario> ::= Unary_Operators <Valor>
               | '!' <Call Variable>
               | <Valor>

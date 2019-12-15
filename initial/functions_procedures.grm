@@ -37,11 +37,11 @@ RelationalOperator = ( '==' | '>' | '<' | '>=' | '<=' | '!=')
               | <>
               
 !-------- Alterei Call procedure para Call Functions_Procedure
-<Function Procedure Body> ::= <Call Function Procedure> <Function Procedure Body> | <> !<If Statement> <Function Procedure Body> | <While Statement> <Function Procedure Body> | <Read Statement> <Function Procedure Body>
+<Function Procedure Body> ::= <Call Procedure> <Function Procedure Body> | <> !<If Statement> <Function Procedure Body> | <While Statement> <Function Procedure Body> | <Read Statement> <Function Procedure Body>
                             !| <Attribution> <Function Procedure Body> | <Var Values Declaration> <Function Procedure Body> | <Attribution> <Function Procedure Body>
                             ! <Print Statement> <Function Procedure Body> | <>
                        
-<Call Function Procedure> ::= Identifier '(' <Real Param List> ')' ';'
+<Call Procedure> ::= Identifier '(' <Real Param List> ')' ';'
 
 !----- Nova Regra
 <Real Param List> ::= <Value> <More Real Param>
