@@ -1,0 +1,19 @@
+"Name" = 'While' 
+"Author" = 'Werisson Mota'
+"Version" = '2.0'
+"Start Symbol" = <Start>
+
+! ----------------------------------------------------------------- Sets                   
+{String Chars} = {Printable} + {HT} - ["]
+               
+!Escopo global
+<Start> ::= <while Statement>
+          
+!Estrutura do while
+<while Statement> ::= 'while''('<Expression>')' '{'<Commands>'}'               
+               
+<Commands>::= <>
+           
+<Expression> ::= <>
+                  
+
