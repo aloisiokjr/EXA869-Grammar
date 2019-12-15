@@ -1,0 +1,61 @@
+"Name"     = 'Print - Read'
+"Author"   = 'Velder Soares'
+"Version"  = 'The version of the grammar and/or language'
+"About"    = 'A short description of the grammar'
+
+"Start Symbol" = <Program>
+
+! -------------------------------------------------
+! Character Sets
+! -------------------------------------------------
+
+{String Chars} = {Printable} + {HT} + {LF} + {CR} - ["\]
+
+! -------------------------------------------------
+! Terminals
+! -------------------------------------------------
+
+Identifier    = {Letter}{AlphaNumeric}*
+CadeCaracters = '"' ( {String Chars} | '\' {Printable} )* '"'
+IntegerNumber = {Number}{Number}*
+
+
+! -------------------------------------------------
+! Rules
+! -------------------------------------------------
+
+<Identifier Param> ::= global'.'Identifier
+                    | local'.'Identifier
+                    | Identifier
+                    
+<Argument Array> ::= IntegerNumber | <Identifier Param>
+
+<Array Param> ::= Identifier '[' <Argument Array> ']' <More Array Column>
+
+<More Array Column> ::= '[' <Argument Array> ']' <More Array Column> | <>
+
+<CompositeType Param> ::= Identifier'.'Identifier
+
+<Print Params> ::= CadeCaracters <More Print Params>
+          | <Array Param> <More Print Params>
+          | <Identifier Param> <More Print Params>
+          | <CompositeType Param> <More Print Params>
+
+<More Print Params> ::= ',' <Print Params>
+          | <>
+
+<Read Params> ::= <Array Param> <More Read Params>
+          | <CompositeType Param> <More Read Params>
+          | <Identifier Param> <More Read Params>
+
+<More Read Params> ::= ',' <Read Params>
+          | <>
+
+<Print Statement> ::= print'('<Print Params>')'';'
+
+<Read Statement> ::= read'('<Read Params>')'';'
+
+! The grammar starts below
+<Program> ::= <Print Statement> <Program>
+          | <Read Statement> <Program>
+          | <>
