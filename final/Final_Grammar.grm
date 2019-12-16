@@ -47,11 +47,11 @@ Times_division = ( '*' | '/' )
 
 ! -------------------------------------------------------------------------------------------------------------------------                 
 !Declaração de valores de constantes         
-<Const Values Declaration> ::= Type <Const Values Attribution> <Const More Attributions>
+<Const Values Declaration> ::= Type <Const Values Attribution> <Const More Attributions> ';' <Const Values Declaration>
                             | <>
                             
 <Const More Attributions> ::= ',' <Const Values Attribution> <Const More Attributions>
-                           | ';' <Const Values Declaration>
+                           | <>
                            
 <Const Values Attribution> ::= Identifier '=' <Value Const>  
                                               
@@ -59,13 +59,13 @@ Times_division = ( '*' | '/' )
 
 ! -------------------------------------------------------------------------------------------------------------------------         
 !Declaração de valores de variaveis     
-<Var Values Declaration> ::= Type <Var Values Attribution> <Var More Attributions>
+<Var Values Declaration> ::= Type <Var Values Attribution> <Var More Attributions> ';' <Var Values Declaration>
                           | 'typedef' 'struct' <IDE_Struct> <Var Values Declaration>
                           | 'struct' <IDE_Struct> <Var Values Declaration>
                           | <>
                           
 <Var More Attributions> ::= ',' <Var Values Attribution> <Var More Attributions>
-                         | ';' <Var Values Declaration>
+                         | <>
                          
 <Var Values Attribution> ::= Identifier <Array Verification>
                           
