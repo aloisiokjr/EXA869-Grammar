@@ -60,27 +60,29 @@ Times_division = ( '*' | '/' )
 ! -------------------------------------------------------------------------------------------------------------------------         
 !Declaração de valores de variaveis     
 <Var Values Declaration> ::= Type <Var Values Attribution> <Var More Attributions> ';' <Var Values Declaration>
-                          | 'typedef' 'struct' <IDE_Struct> <Var Values Declaration>
-                          | 'struct' <IDE_Struct> <Var Values Declaration>
+                          | <Struct Builder> <Var Values Declaration>
                           | <>
                           
 <Var More Attributions> ::= ',' <Var Values Attribution> <Var More Attributions>
                          | <>
                          
-<Var Values Attribution> ::= Identifier <Array Verification>
+<Var Values Attribution> ::= Identifier <Array Verification>                          
                           
-                          
-<Array Verification> ::= '['IntegerNumber']'<DoubleArray> | <>
+<Array Verification> ::= '['IntegerNumber']'<DoubleArray> 
+                      | <>
                       
-<DoubleArray> ::= '['IntegerNumber']' <DoubleArray> | <>
+<DoubleArray> ::= '['IntegerNumber']' <DoubleArray> 
+               | <>
 
-<IDE_Struct> ::= Identifier '{' 'var' <Var Values Declaration> '}'';' 
-              | Identifier 'extends' Identifier '{' 'var' <Var Values Declaration> '}'';'
-              
    
 ! -------------------------------------------------------------------------------------------------------------------------         
 !Escopo para a construção de structs    
-<Struct Builder> ::= 
+<Struct Builder> ::= 'typedef' 'struct' <IDE_Struct>
+                  | 'struct' <IDE_Struct>
+                  | <> 
+                  
+<IDE_Struct> ::= Identifier '{' 'var' <Var Values Declaration> '}'';' 
+              | Identifier 'extends' Identifier '{' 'var' <Var Values Declaration> '}'';'
                   
 ! -------------------------------------------------------------------------------------------------------------------------                          
 !Escopo para a declaração de funções e procedimentos                 
@@ -197,7 +199,7 @@ Times_division = ( '*' | '/' )
 <Real Param List> ::= <Value Param> <More Real Param>
                     | <Identifier Param> <More Real Param>
                     | <Array Param> <More Real Param>
-                    | <CompositeType Param>
+                    | <CompositeType Param> <More Real Param>
                     | <>
                 
 <More Real Param> ::= ',' <Real Param List>
