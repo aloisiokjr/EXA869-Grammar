@@ -1,67 +1,69 @@
 "Name"    = 'Gramatica declaracoes'
 "Author"  = 'Aurelio'
-"Version" = '3.0'
+"Version" = '4.0'
 "About"   = 'Esta e uma gramatica para declaracoes de (var, const, vetor, matriz, struct)'
 
 !sets
 {AlphaNumeric1} = {AlphaNumeric} + [_]
-
+{String Chars} = {Printable} + {HT} - ["]
 
 ! terminais
 Identifier    = {Letter}{AlphaNumeric1}*
-Digito = {Number}+
+CadeCaracters = '"' ({String Chars})* '"'
+Number = '-'?{Digit}+('.'{Digit}+)?
 
 
 "Start Symbol" = <Start>
 !rules
-<Start>                  ::=   <Type_Var>
-                             | 'typedef' <Type_Var>
+<Start>                  ::=   'typedef' 'struct' <IDE_Struct>
+                             | 'struct' <IDE_Struct>
+                             | 'const' <Body_Const>
+                             | 'var' <Body_Var>
 
-
-<Type_Var>               ::=   'var' <IDE_Variables> 
-                             | 'var' <Vector> <IDE_Variables>
-                             | 'var' <Matriz> <IDE_Variables>
-                             | 'int' <IDE_Variables> 
-                             | 'int' <Vector> <IDE_Variables>
-                             | 'int' <Matriz> <IDE_Variables>
-                             | 'real' <IDE_Variables> 
-                             | 'real' <Vector> <IDE_Variables>
-                             | 'real' <Matriz> <IDE_Variables>
-                             | 'string' <IDE_Variables> 
-                             | 'string' <Vector> <IDE_Variables>
-                             | 'string' <Matriz> <IDE_Variables>
-                             | 'const' <IDE_Variables> 
-                             | 'const' <Vector> <IDE_Variables>
-                             | 'const' <Matriz> <IDE_Variables>
-                             | 'boolean' <IDE_Variables> 
-                             | 'boolean' <Vector> <IDE_Variables>
-                             | 'boolean' <Matriz> <IDE_Variables>
-                             | 'struct' <IDE_Variables_Struct>
-                             | 'struct' <Vector> <IDE_Variables_Struct>
-                             | 'struct' <Matriz> <IDE_Variables_Struct>
-                             
-<IDE_Variables>          ::=  '{' Identifier <Repeat_Var> '}'';'
+<Body_Var>               ::=   '{' <Type_Var> '}'';'                          
+                                    
                           
-<Repeat_Var>             ::=  ',' Identifier <Repeat_Var>
+<Type_Var>               ::=   'int' <IDE_Variables> 
+                             | 'real' <IDE_Variables> 
+                             | 'string' <IDE_Variables> 
+                             | 'boolean' <IDE_Variables>                            
+                             
+<IDE_Variables>          ::=   Identifier <Array> <Repeat_Var>';'
+                              
+                          
+<Repeat_Var>             ::=  ',' Identifier <Array>
                              | <> 
                              
-<Vector>                 ::=  '[' Digito']'
-                             | '[' Identifier']'                        
+<Array>                  ::=   '[' <Value_of_Array> ']' <Array>
+                             | <>
+                             
+
+<Value_of_Array>         ::=   Number
+                             | Identifier 
+                             
+!Constant                                                                                                                           
+<Body_Const>             ::=   '{' <Type_Const> '}'';'
+                         
+<Type_Const>             ::=   'int' <IDE_Const> 
+                             | 'real' <IDE_Const> 
+                             | 'string' <IDE_Const> 
+                             | 'boolean' <IDE_Const>
+
+<IDE_Const>              ::=   Identifier '=' <Value_of_Const>';' <Type_Const>
+                             | Identifier '=' <Value_of_Const>';' 
                           
-<Matriz>                 ::=  '[' Digito ']''[' Digito']'
-                             | '[' Digito ']''[' Identifier']'
-                             | '[' Identifier ']''[' Digito']'
-                             | '[' Identifier ']''[' Identifier']'
-                                                                                    
-                          
-<IDE_Variables_Struct>   ::=   Identifier <Body_Struct> 
+<Value_of_Const>         ::=   Number
+                             | CadeCaracters
+                             | 'true'
+                             | 'false'              
+                             
+!Struct                                                  
+<IDE_Struct>             ::=   Identifier <Body_Struct> 
                              | Identifier 'extends' Identifier <Body_Struct>                              
                              
-<Body_Struct>            ::=  '{' <Type_Var> <More_Var_BodyStruct> '}'';'
-                          
-<More_Var_BodyStruct>    ::= <Type_Var> <More_Var_BodyStruct>
-                             | <>                            
-                                                    
+<Body_Struct>            ::=  '{' 'var' <Body_Var> '}'';'                     
+                           
+                                                  
 
 
 
