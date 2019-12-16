@@ -1,7 +1,7 @@
 ﻿"Name" = 'Final_Grammar' 
 "Author" = 'EXA869-P02'
 "Version" = '1.0'
-"Start Symbol" = <Global>
+"Start Symbol" = <Start>
                
 ! ------------------------------------------------------------------------------------------------------------------------- SETS                   
 {String Chars} = {Printable} + {HT} - ["]
@@ -14,7 +14,7 @@ Identifier = {Letter}({AlphaNumeric} | [_])*
 
 Number = {Digit}+('.'{Digit}+)?
        
-IntegerNumber = {Number}{Number}*
+IntegerNumber = {Digit}{Digit}*
        
 CadeCaracters = '"' ( {String Chars} | '\' {Printable} )* '"'
               
@@ -34,10 +34,7 @@ Times_division = ( '*' | '/' )
 
 !Escopo Global
 
-<Global> ::= <Body Program>
-          | <>
-
-<Body Program> ::= <Global Values> <Functions_Procedures>
+<Start> ::= <Global Values> <Functions_Procedures>
 
 ! -------------------------------------------------------------------------------------------------------------------------                
 !Declaração de constantes e variáeis                
@@ -60,7 +57,8 @@ Times_division = ( '*' | '/' )
 ! -------------------------------------------------------------------------------------------------------------------------         
 !Declaração de valores de variaveis     
 <Var Values Declaration> ::= Type <Var Values Attribution> <Var More Attributions> ';' <Var Values Declaration>
-                          | <Struct Builder> <Var Values Declaration>
+                          | 'typedef' 'struct' <IDE_Struct> <Var Values Declaration>
+                          | 'struct' <IDE_Struct> <Var Values Declaration>
                           | <>
                           
 <Var More Attributions> ::= ',' <Var Values Attribution> <Var More Attributions>
@@ -74,13 +72,6 @@ Times_division = ( '*' | '/' )
 <DoubleArray> ::= '['IntegerNumber']' <DoubleArray> 
                | <>
 
-   
-! -------------------------------------------------------------------------------------------------------------------------         
-!Escopo para a construção de structs    
-<Struct Builder> ::= 'typedef' 'struct' <IDE_Struct>
-                  | 'struct' <IDE_Struct>
-                  | <> 
-                  
 <IDE_Struct> ::= Identifier '{' 'var' <Var Values Declaration> '}'';' 
               | Identifier 'extends' Identifier '{' 'var' <Var Values Declaration> '}'';'
                   
@@ -100,7 +91,8 @@ Times_division = ( '*' | '/' )
 ! -------------------------------------------------------------------------------------------------------------------------              
 !Escopo de comandos possíveis para funções e procedimentos                
 <Commands> ::= <If Statement> <Commands> | <While Statement> <Commands> | <Read Statement> <Commands> | <Print Statement> <Commands>
-            | <Attribution> <Commands> | <Call Procedure> <Commands> | <>
+            !| <Assignment> <Commands> 
+            | <Call Procedure> <Commands> | <>
 
 ! -------------------------------------------------------------------------------------------------------------------------                      
 !Escopo para expressões
@@ -137,8 +129,8 @@ Times_division = ( '*' | '/' )
           | Number 
           | <Call Variable>
 
-<Call Variable> ::= 'global.' Identifier
-                 |'local.' Identifier
+<Call Variable> ::= 'global' '.' Identifier
+                 |'local' '.' Identifier
                  | Identifier
               
 ! -------------------------------------------------------------------------------------------------------------------------
@@ -157,7 +149,7 @@ Times_division = ( '*' | '/' )
                   
 <Read Params> ::= <Array Param> <More Read Params>
                | <CompositeType Param> <More Read Params>
-               | <Identifier Param> <More Read Params>
+               | <Call Variable> <More Read Params>
                | <>
 
 <More Read Params> ::= ',' <Read Params>
@@ -169,18 +161,14 @@ Times_division = ( '*' | '/' )
                    
 <Print Params> ::= CadeCaracters <More Print Params>
                 | <Array Param> <More Print Params>
-                | <Identifier Param> <More Print Params>
+                | <Call Variable> <More Print Params>
                 | <CompositeType Param> <More Print Params>
                 | <>
 
 <More Print Params> ::= ',' <Print Params>
                      | <>
-                     
-<Identifier Param> ::= 'global' '.' Identifier
-                    | 'local' '.' Identifier
-                    | Identifier
                     
-<Argument Array> ::= IntegerNumber | <Identifier Param>
+<Argument Array> ::= IntegerNumber | <Call Variable>
 
 <Array Param> ::= Identifier '[' <Argument Array> ']' <More Array Column>
 
@@ -190,14 +178,14 @@ Times_division = ( '*' | '/' )
                    
 ! -------------------------------------------------------------------------------------------------------------------------
 !Escopo da atribuição
-<Attribution> ::= <>
+<Assignment> ::= <>
                
 ! -------------------------------------------------------------------------------------------------------------------------
 !Chamada de procedimentos
 <Call Procedure> ::= Identifier '(' <Real Param List> ')' ';'
 
 <Real Param List> ::= <Value Param> <More Real Param>
-                    | <Identifier Param> <More Real Param>
+                    | <Call Variable> <More Real Param>
                     | <Array Param> <More Real Param>
                     | <CompositeType Param> <More Real Param>
                     | <>
@@ -205,13 +193,16 @@ Times_division = ( '*' | '/' )
 <More Real Param> ::= ',' <Real Param List>
                    | <>
                    
-<Value Param> ::= Identifier | Number | CadeCaracters | 'true' | 'false'
+<Value Param> ::= Number | CadeCaracters | 'true' | 'false'
          
 ! -------------------------------------------------------------------------------------------------------------------------
 !Chamada do retorno
                    
 <Return> ::= 'return' <Return Values> ';'
           
-<Return Values> ::= <Value Param>
-                 | <Identifier Param>
+<Return Values> ::= <Call Variable>
+                 | Number 
+                 | CadeCaracters 
+                 | 'true' 
+                 | 'false'
                  | <Expression>
