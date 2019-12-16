@@ -1,3 +1,4 @@
+  
 ID = {Letter}({AlphaNumeric}|[_])*
 NUMBER = '-'?{Number}+('.'{Number}+)?
 STRING = '"'({Printable})*'"'
@@ -15,10 +16,21 @@ STRING = '"'({Printable})*'"'
               | 
 
 <Assign> ::= 'global' '.' ID <MatrAssign> '=' <Assign2>
-               | ID <MatrAssign> '=' <Assign2>
+		   | ID <Struct>
+<Struct> ::= '.' ID <MatrAssign> '=' <Assign2>
+           | <MatrAssign> '=' <Assign2>
 <Assign2> ::= 'global' '.' ID <MatrAssign>
-                | <Value>
-                
+			| ID <NotVar> 
+			| <ConstValue>
+			| <Expression>
+
+<NotVar> ::= '.' ID <MatrAssign>
+		   | '(' <Value> <ListArg> ')'
+		   | 
+
+<ListArg> ::= ',' <Value> <ListArg>
+			| 
+              
 <MatrAssign> ::= '[' <MatrAssign2>
                | 
 <MatrAssign2> ::= NUMBER ']' <MatrAssign>
