@@ -60,18 +60,24 @@ Times_division = ( '*' | '/' )
 ! -------------------------------------------------------------------------------------------------------------------------         
 !Declaração de valores de variaveis     
 <Var Values Declaration> ::= Type <Var Values Attribution> <Var More Attributions>
+                          | 'typedef' 'struct' <IDE_Struct> <Var Values Declaration>
+                          | 'struct' <IDE_Struct> <Var Values Declaration>
                           | <>
                           
 <Var More Attributions> ::= ',' <Var Values Attribution> <Var More Attributions>
                          | ';' <Var Values Declaration>
                          
 <Var Values Attribution> ::= Identifier <Array Verification>
-                          | <Struct Builder> ! DEPENDENTE DE DESENVOLVIMENTO
+                          
                           
 <Array Verification> ::= '['IntegerNumber']'<DoubleArray> | <>
                       
 <DoubleArray> ::= '['IntegerNumber']' <DoubleArray> | <>
 
+<IDE_Struct> ::= Identifier '{' 'var' <Var Values Declaration> '}'';' 
+              | Identifier 'extends' Identifier '{' 'var' <Var Values Declaration> '}'';'
+              
+   
 ! -------------------------------------------------------------------------------------------------------------------------         
 !Escopo para a construção de structs    
 <Struct Builder> ::= 
@@ -84,7 +90,6 @@ Times_division = ( '*' | '/' )
 
 !Escopo da lista de parâmetros
 <Param List> ::= Type Identifier <More Param>
-              |
               | <>
               
 <More Param> ::= ',' <Param List>
@@ -206,5 +211,5 @@ Times_division = ( '*' | '/' )
 <Return> ::= 'return' <Return Values> ';'
           
 <Return Values> ::= <Value Param>
-                  | <Identifier Param>
-                 !| <Expressions>
+                 | <Identifier Param>
+                 | <Expression>
