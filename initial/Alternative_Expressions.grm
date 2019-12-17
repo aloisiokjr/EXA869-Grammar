@@ -1,0 +1,75 @@
+﻿"Name"     = 'Enter the name of the grammar'
+"Author"   = 'Enter your name'
+"Version"  = 'The version of the grammar and/or language'
+"About"    = 'A short description of the grammar'
+
+"Start Symbol" = <Expressions>
+
+! -------------------------------------------------
+! Character Sets
+! -------------------------------------------------
+
+{String Chars} = {Printable} + {HT} - ["]
+
+! -------------------------------------------------
+! Terminals
+! -------------------------------------------------
+
+Number = {Digit}+('.'{Digit}+)?
+
+Identifier = {Letter}({AlphaNumeric} | [_])*
+
+Precedence1 = ( '++' | '--')
+            
+Precedence2 = ( '*' | '/' )
+
+! No caso de operações unarias o '+' e o '-' possuem precedência 1                 
+Precedence3 = ( '+' | '-' )
+            
+precedence4 = ( '>' | '<' | '>=' | '<=' )
+         
+Precedence5 = ( '==' | '!=' )
+
+Precedence6 = ( '&&' )
+
+Precedence7 = ( '||' )
+        
+Precedence8 = ( '=' )
+                        
+! -------------------------------------------------
+! Rules
+! -------------------------------------------------
+
+! The grammar starts below
+<Expressions> ::= <Beginning> 
+                
+<Beginning> ::= '(' <Beginning> ')'
+              |Number <Beginning>
+              |Precedence8 <Beginning>
+              | <Precedence7>
+
+<Precedence7> ::= precedence7 <Beginning>
+              | <Precedence6>
+                    
+<Precedence6> ::= Precedence6 <Beginning>
+              | <Precedence5>
+              
+<Precedence5> ::= Precedence5 <Beginning>
+              | <Precedence4>
+ 
+<Precedence4> ::= Precedence4 <Beginning>
+              | <Precedence3>
+             
+<Precedence3> ::= Precedence3 <Beginning>
+              | <Precedence2>
+
+<Precedence2> ::= Precedence2 <Beginning>
+              | <Precedence1>
+
+<Precedence1> ::= '!' <Call Variable>
+              |Precedence1 <Beginning>
+              | <>
+
+<Call Variable> ::= 'global.' Identifier
+                   |'local.'  Identifier
+                   | Identifier
