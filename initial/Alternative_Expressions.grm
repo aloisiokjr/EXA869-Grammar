@@ -1,7 +1,6 @@
-﻿"Name"     = 'Enter the name of the grammar'
-"Author"   = 'Enter your name'
-"Version"  = 'The version of the grammar and/or language'
-"About"    = 'A short description of the grammar'
+﻿"Name"     = 'Alternative Expressions'
+"Author"   = 'Werisson Mota'
+"Version"  = '2.0'
 
 "Start Symbol" = <Expressions>
 
