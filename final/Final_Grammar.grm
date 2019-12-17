@@ -91,8 +91,7 @@ Times_division = ( '*' | '/' )
 ! -------------------------------------------------------------------------------------------------------------------------              
 !Escopo de comandos possíveis para funções e procedimentos                
 <Commands> ::= <If Statement> <Commands> | <While Statement> <Commands> | <Read Statement> <Commands> | <Print Statement> <Commands>
-            !| <Assignment> <Commands> 
-            | <Call Procedure> <Commands> | <>
+            | <Assignment> <Commands> | <Call Procedure> <Commands> | <>
 
 ! -------------------------------------------------------------------------------------------------------------------------                      
 !Escopo para expressões
@@ -181,16 +180,16 @@ Times_division = ( '*' | '/' )
 <Assignment> ::= <Assign> <Assignment>
               | <>
 
-<Assign> ::= 'global' '.' ID <MatrAssign> '=' <Assign2>
-           | ID <Struct>
-<Struct> ::= '.' ID <MatrAssign> '=' <Assign2>
+<Assign> ::= 'global' '.' Identifier <MatrAssign> '=' <Assign2>
+           | Identifier <Struct>
+<Struct> ::= '.' Identifier <MatrAssign> '=' <Assign2>
            | <MatrAssign> '=' <Assign2>
-<Assign2> ::= 'global' '.' ID <MatrAssign>
-            | ID <NotVar> 
+<Assign2> ::= 'global' '.' Identifier <MatrAssign>
+            | Identifier <NotVar> 
             | <Value Param>
             | <Expression>
 
-<NotVar> ::= '.' ID <MatrAssign>
+<NotVar> ::= '.' Identifier <MatrAssign>
            | '(' <Value Assignment> <ListArg> ')'
            | <>
 
@@ -199,8 +198,8 @@ Times_division = ( '*' | '/' )
               
 <MatrAssign> ::= '[' <MatrAssign2>
                | <>
-<MatrAssign2> ::= NUMBER ']' <MatrAssign>
-                | ID ']' <MatrAssign>
+<MatrAssign2> ::= Number ']' <MatrAssign>
+                | Identifier ']' <MatrAssign>
                 
 <Value Assignment> ::= <Value Param>
                     | <Call Variable>
