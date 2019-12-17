@@ -66,14 +66,13 @@ Times_division = ( '*' | '/' )
                          
 <Var Values Attribution> ::= Identifier <Array Verification>                          
                           
-<Array Verification> ::= '['IntegerNumber']'<DoubleArray> 
-                      | <>
-                      
-<DoubleArray> ::= '['IntegerNumber']' <DoubleArray> 
-               | <>
+<Array Verification> ::= '['IntegerNumber']' <Array Verification> 
+                      | <>                     
 
-<IDE_Struct> ::= Identifier '{' 'var' <Var Values Declaration> '}'';' 
-              | Identifier 'extends' Identifier '{' 'var' <Var Values Declaration> '}'';'
+<IDE_Struct> ::= Identifier <IDE_Struct2>
+              
+<IDE_Struct2> ::= '{' 'var' <Var Values Declaration> '}'';' 
+              | 'extends' Identifier '{' 'var' <Var Values Declaration> '}'';'
                   
 ! -------------------------------------------------------------------------------------------------------------------------                          
 !Escopo para a declaração de funções e procedimentos                 
