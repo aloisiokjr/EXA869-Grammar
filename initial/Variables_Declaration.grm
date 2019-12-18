@@ -13,6 +13,7 @@ CadeCaracters = '"' ({String Chars})* '"'
 Number = '-'?{Digit}+('.'{Digit}+)?
 
 
+
 "Start Symbol" = <Start>
 !rules
 <Start>                  ::=   'typedef' 'struct' <IDE_Struct>
@@ -49,8 +50,10 @@ Number = '-'?{Digit}+('.'{Digit}+)?
                              | 'string' <IDE_Const> 
                              | 'boolean' <IDE_Const>
 
-<IDE_Const>              ::=   Identifier '=' <Value_of_Const>';' <Type_Const>
-                             | Identifier '=' <Value_of_Const>';' 
+<IDE_Const>              ::=   Identifier '=' <Value_of_Const>';'<More_Const_Declaration>                              
+                             
+<More_Const_Declaration> ::=  <Type_Const>
+                             | <>
                           
 <Value_of_Const>         ::=   Number
                              | CadeCaracters
@@ -58,8 +61,10 @@ Number = '-'?{Digit}+('.'{Digit}+)?
                              | 'false'              
                              
 !Struct                                                  
-<IDE_Struct>             ::=   Identifier <Body_Struct> 
-                             | Identifier 'extends' Identifier <Body_Struct>                              
+<IDE_Struct>             ::=   Identifier <Struct_Options>                             
+                             
+<Struct_Options>         ::=   <Body_Struct>
+                             | 'extends' Identifier <Body_Struct>                              
                              
 <Body_Struct>            ::=  '{' 'var' <Body_Var> '}'';'                     
                            
