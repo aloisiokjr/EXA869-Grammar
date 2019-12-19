@@ -176,10 +176,7 @@ Times_division = ( '*' | '/' )
                    
 ! -------------------------------------------------------------------------------------------------------------------------
 !Escopo da atribuição
-<Assignment> ::= <Assign> <Assignment>
-              | <>
-
-<Assign> ::= 'global' '.' Identifier <MatrAssign> '=' <Assign2>
+<Assignment> ::= 'global' '.' Identifier <MatrAssign> '=' <Assign2>
            | 'local' '.' Identifier <MatrAssign> '=' <Assign2>
            | Identifier <Struct>
 <Struct> ::= '.' Identifier <MatrAssign> '=' <Assign2>
