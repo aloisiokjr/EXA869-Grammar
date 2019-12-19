@@ -180,10 +180,12 @@ Times_division = ( '*' | '/' )
               | <>
 
 <Assign> ::= 'global' '.' Identifier <MatrAssign> '=' <Assign2>
+           | 'local' '.' Identifier <MatrAssign> '=' <Assign2>
            | Identifier <Struct>
 <Struct> ::= '.' Identifier <MatrAssign> '=' <Assign2>
            | <MatrAssign> '=' <Assign2>
 <Assign2> ::= 'global' '.' Identifier <MatrAssign>
+            | 'local' '.' Identifier <MatrAssign>
             | Identifier <NotVar> 
             | <Value Param>
             | <Expression>
