@@ -1,4 +1,4 @@
-"Name" = 'Final_Grammar' 
+﻿"Name" = 'Final_Grammar' 
 "Author" = 'EXA869-P02'
 "Version" = '1.0'
 "Start Symbol" = <Start>
@@ -12,7 +12,7 @@
                
 Identifier = {Letter}({AlphaNumeric} | [_])*
 
-Number = {Digit}+('.'{Digit}+)?
+Number = (({Digit}+ '.' {Digit}+) | IntegerNumber)
        
 IntegerNumber = {Digit}{Digit}*
        
@@ -119,13 +119,9 @@ Times_division = ( '*' | '/' )
 <OpMultiplication> ::= Times_division <OpUnary> <OpMultiplication>
                      | <>
                     
-<OpUnary> ::= Unary_Operators <Value2>
+<OpUnary> ::= Unary_Operators '(' <AritmeticExp> ')'
             | '!' <Call Variable>
-            | <Value2>
-
-<Value2> ::= '(' <AritmeticExp> ')'
-           | Number 
-           | <Call Variable>
+            | '(' <AritmeticExp> ')'
 
 <Call Variable> ::= 'global' '.' Identifier
                   | 'local' '.' Identifier
