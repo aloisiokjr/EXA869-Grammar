@@ -23,8 +23,10 @@ Type  = ('int' | 'real' | 'boolean' | 'string')
 Unary_Operators = ( '++' | '--' )
                 
 Logical_Operators = ( '&&' | '||' )
-     
-RelationalOperator = ( '==' | '>' | '<' | '>=' | '<=' | '!=')
+                   
+RelationalMorePrec = ( '>' | '<' | '>=' | '<=' )
+                   
+RelationalLessPrec = ( '==' | '!=' )
                    
 Plus_Minus = ( '+' | '-' )
            
@@ -199,6 +201,7 @@ Times_division = ( '*' | '/' )
               
 <MatrAssign> ::= '[' <MatrAssign2>
                | <>
+               
 <MatrAssign2> ::= <Number> ']' <MatrAssign>
                 | Identifier ']' <MatrAssign>
                 
