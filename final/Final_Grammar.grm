@@ -182,7 +182,7 @@ Times_division = ( '*' | '/' )
 <AssignmentID> ::= Identifier <Struct>
                
 <Struct> ::= '.' Identifier <Struct3>
-           | <MatrAssign> <Struct2>
+           | <Struct3>
            
 <Struct3> ::= <MatrAssign> <Struct2>
                        
