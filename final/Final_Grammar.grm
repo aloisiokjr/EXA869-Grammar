@@ -12,7 +12,7 @@
                
 Identifier = {Letter}({AlphaNumeric} | [_])*
 
-Number = ({Digit}+ '.' {Digit}+) + IntegerNumber
+RealNumber = {Digit}+ '.' {Digit}+
        
 IntegerNumber = {Digit}{Digit}*
        
@@ -29,6 +29,8 @@ RelationalOperator = ( '==' | '>' | '<' | '>=' | '<=' | '!=')
 Plus_Minus = ( '+' | '-' )
            
 Times_division = ( '*' | '/' )
+               
+<Number> ::= IntegerNumber | RealNumber
                    
 ! ------------------------------------------------------------------------------------------------------------------------- RULES
 
@@ -52,7 +54,7 @@ Times_division = ( '*' | '/' )
                            
 <Const Values Attribution> ::= Identifier '=' <Value Const>  
                                               
-<Value Const> ::= Number | CadeCaracters | 'true' | 'false'
+<Value Const> ::= <Number> | CadeCaracters | 'true' | 'false'
 
 ! -------------------------------------------------------------------------------------------------------------------------         
 !Declaração de valores de variaveis     
@@ -172,9 +174,9 @@ Times_division = ( '*' | '/' )
                    
 ! -------------------------------------------------------------------------------------------------------------------------
 !Escopo da atribuição
-<Assignment> ::= 'global' '.' Identifier <MatrAssign> '=' <Assign2>
-               | 'local' '.' Identifier <MatrAssign> '=' <Assign2>
-               | Identifier <Struct>
+<Assignment> ::= 'global' '.' Identifier <MatrAssign> '=' <Assign2> ';'
+               | 'local' '.' Identifier <MatrAssign> '=' <Assign2> ';'
+               | Identifier <Struct> ';'
 <Struct> ::= '.' Identifier <MatrAssign> '=' <Assign2>
            | <MatrAssign> '=' <Assign2>
 <Assign2> ::= 'global' '.' Identifier <MatrAssign>
@@ -192,7 +194,7 @@ Times_division = ( '*' | '/' )
               
 <MatrAssign> ::= '[' <MatrAssign2>
                | <>
-<MatrAssign2> ::= Number ']' <MatrAssign>
+<MatrAssign2> ::= <Number> ']' <MatrAssign>
                 | Identifier ']' <MatrAssign>
                 
 <Value Assignment> ::= <Value Param>
@@ -211,7 +213,7 @@ Times_division = ( '*' | '/' )
 <More Real Param> ::= ',' <Real Param List>
                     | <>
                    
-<Value Param> ::= Number | CadeCaracters | 'true' | 'false'
+<Value Param> ::= <Number> | CadeCaracters | 'true' | 'false'
          
 ! -------------------------------------------------------------------------------------------------------------------------
 !Chamada do retorno
@@ -219,7 +221,7 @@ Times_division = ( '*' | '/' )
 <Return> ::= 'return' <Return Values> ';'
           
 <Return Values> ::= <Call Variable>
-                  | Number 
+                  | <Number> 
                   | CadeCaracters 
                   | 'true' 
                   | 'false'

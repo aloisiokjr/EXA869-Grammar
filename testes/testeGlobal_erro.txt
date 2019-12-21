@@ -1,27 +1,25 @@
 const {
     int a = 4;
     boolean aux1 = true;
-    real numeroAux = 4.478;
+    float numeroAux = 4.478;
     string auxString = "Testando";
 }
 var {
     int auxNum, testeNum, next;
-    string auxString;
+    string auxString = "Testando";
 }
 
-function int start (){
+function start (){
     var {
-        int numLocal;
-        real numAux;
+        int numLocal = 3;
+        float numAux = 1.1;
     }
-    numLocal = 3;
-    numAux = 1.1;
-    while (numLocal < 40) {
+    while (numLocal a < 40) {
         a = mudaNum (a);
     }
 
     aumentaNum(a);
-    return 0;
+    return a;
 }
 
 function mudaNum (float a){
