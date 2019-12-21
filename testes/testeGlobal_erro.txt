@@ -1,7 +1,7 @@
 const {
     int a = 4;
     boolean aux1 = true;
-    float numeroAux = 4.478;
+    real numeroAux = 4.478;
     string auxString = "Testando";
 }
 var {
@@ -9,7 +9,7 @@ var {
     string auxString = "Testando";
 }
 
-function start (){
+function int start (){
     var {
         int numLocal = 3;
         float numAux = 1.1;
@@ -22,7 +22,7 @@ function start (){
     return a;
 }
 
-function mudaNum (float a){
+function mudaNum (real a){
     if (a <= 10) then {
         a++;
     } else {

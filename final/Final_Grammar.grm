@@ -35,7 +35,6 @@ Times_division = ( '*' | '/' )
 <Number> ::= IntegerNumber | RealNumber
                    
 ! ------------------------------------------------------------------------------------------------------------------------- RULES
-
 !Escopo Global
 
 <Start> ::= <Global Values> <Functions_Procedures>
@@ -80,8 +79,8 @@ Times_division = ( '*' | '/' )
                   
 ! -------------------------------------------------------------------------------------------------------------------------                          
 !Escopo para a declaração de funções e procedimentos                 
-<Functions_Procedures> ::= 'function' Type Identifier '(' <Param List> ')' '{' 'var' '{' <Var Values Declaration> '}' <Commands> '}' <Functions_Procedures>
-                         | 'procedure' Identifier '(' <Param List> ')' '{' 'var' '{' <Var Values Declaration> '}' <Commands> <Return> '}' <Functions_Procedures>
+<Functions_Procedures> ::= 'function' Type Identifier '(' <Param List> ')' '{' 'var' '{' <Var Values Declaration> '}' <Commands> <Return> '}' <Functions_Procedures>
+                         | 'procedure' Identifier '(' <Param List> ')' '{' 'var' '{' <Var Values Declaration> '}' <Commands> '}' <Functions_Procedures>
                          | <>
 
 !Escopo da lista de parâmetros
