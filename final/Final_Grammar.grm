@@ -175,13 +175,17 @@ Times_division = ( '*' | '/' )
                    
 ! -------------------------------------------------------------------------------------------------------------------------
 !Escopo da atribuição
-<Assignment> ::= 'global' '.' Identifier <MatrAssign> '=' <Assign2> ';'
-               | 'local' '.' Identifier <MatrAssign> '=' <Assign2> ';'
-               | Identifier <Struct> ';'
+<Assignment> ::= 'global' '.' <AssignmentID>
+               | 'local' '.' <AssignmentID>
+               | <AssignmentID>
                
-<Struct> ::= '.' Identifier <MatrAssign> '=' <Assign2>
+<AssignmentID> ::= Identifier <Struct>
+               
+<Struct> ::= '.' Identifier <Struct3>
            | <MatrAssign> <Struct2>
            
+<Struct3> ::= <MatrAssign> <Struct2>
+                       
 <Struct2> ::= '=' <Assign2>
             | Unary_Operators
            
