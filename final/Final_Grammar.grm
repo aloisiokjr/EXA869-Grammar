@@ -12,7 +12,7 @@
                
 Identifier = {Letter}({AlphaNumeric} | [_])*
 
-Number = (({Digit}+ '.' {Digit}+) | IntegerNumber)
+Number = ({Digit}+ '.' {Digit}+) + IntegerNumber
        
 IntegerNumber = {Digit}{Digit}*
        
