@@ -134,12 +134,13 @@ Modifiers = ( 'local' | 'global' )
 <OpMultiplication> ::= Times_division <OpUnary> <OpMultiplication>
                      | <>
                     
-<OpUnary> ::= <SubExp> Unary_Operators 
+<OpUnary> ::= <Unary_Op>
             | <SubExp> 
-            | Unary_Operators <SubExp> 
             | '(' <AritmeticExp> ')'  
+            
+<Unary_Op> ::= Unary_Operators <SubExp> | <SubExp> Unary_Operators | '!' <Call Variable>
 
-<SubExp> ::= '!' <Call Variable> | <Call Variable> | <Number>
+<SubExp> ::=  <Call Variable> | <Number>
 
 <Call Variable> ::= Modifiers '.' Identifier <MatrAssign>
                   | Modifiers '.' Identifier
@@ -190,8 +191,8 @@ Modifiers = ( 'local' | 'global' )
                    
 ! -------------------------------------------------------------------------------------------------------------------------
 !Escopo da atribuição
-<Assignment> ::= <Call Variable> '=' <Assign2> ';'
-           
+<Assignment> ::= <Call Variable> '=' <Assign2> ';' | <Assign2> ';'
+              
 <Assign2> ::=  <Call Procedure_Function>
             | <Expression>
             | <Not Number>
