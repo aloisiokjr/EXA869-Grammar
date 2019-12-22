@@ -80,8 +80,8 @@ Times_division = ( '*' | '/' )
                   
 ! -------------------------------------------------------------------------------------------------------------------------                          
 !Escopo para a declaração de funções e procedimentos                 
-<Functions_Procedures> ::= 'function' Type Identifier '(' <Param List> ')' '{' 'var' '{' <Var Values Declaration> '}' <Commands> '}' <Functions_Procedures>
-                         | 'procedure' Identifier '(' <Param List> ')' '{' 'var' '{' <Var Values Declaration> '}' <Commands> <Return> '}' <Functions_Procedures>
+<Functions_Procedures> ::= 'function' Type Identifier '(' <Param List> ')' '{' 'var' '{' <Var Values Declaration> '}' <Commands> <Return> '}' <Functions_Procedures>
+                         | 'procedure' Identifier '(' <Param List> ')' '{' 'var' '{' <Var Values Declaration> '}' <Commands> '}' <Functions_Procedures>
                          | <>
 
 !Escopo da lista de parâmetros
@@ -94,7 +94,7 @@ Times_division = ( '*' | '/' )
 ! -------------------------------------------------------------------------------------------------------------------------              
 !Escopo de comandos possíveis para funções e procedimentos                
 <Commands> ::= <If Statement> <Commands> | <While Statement> <Commands> | <Read Statement> <Commands> | <Print Statement> <Commands>
-             | <Assignment> <Commands> | <Call Procedure> <Commands> | <>
+             | <Assignment> <Commands> | <Call Procedure_Function> <Commands> | <>
 
 ! -------------------------------------------------------------------------------------------------------------------------                      
 !Escopo para expressões
@@ -123,13 +123,15 @@ Times_division = ( '*' | '/' )
 <OpMultiplication> ::= Times_division <OpUnary> <OpMultiplication>
                      | <>
                     
-<OpUnary> ::= Unary_Operators '(' <AritmeticExp> ')'
-            | '!' <Call Variable>
-            | '(' <AritmeticExp> ')'
+<OpUnary> ::= <SubExp> Unary_Operators 
+            | <SubExp>
+            | '(' <AritmeticExp> ')'  
 
-<Call Variable> ::= 'global' '.' Identifier
-                  | 'local' '.' Identifier
-                  | Identifier
+<SubExp> ::= '!' <Call Variable> | <Call Variable> | <Number>
+
+<Call Variable> ::= 'global' '.' Identifier <Paths>
+                  | 'local' '.' Identifier <Paths>
+                  | Identifier <Paths>
               
 ! -------------------------------------------------------------------------------------------------------------------------
 !Estrutura do if/else
@@ -176,41 +178,33 @@ Times_division = ( '*' | '/' )
                    
 ! -------------------------------------------------------------------------------------------------------------------------
 !Escopo da atribuição
-<Assignment> ::= 'global' '.' Identifier <MatrAssign> '=' <Assign2> ';'
-               | 'local' '.' Identifier <MatrAssign> '=' <Assign2> ';'
-               | Identifier <Struct> ';'
-               
-<Struct> ::= '.' Identifier <MatrAssign> '=' <Assign2>
-           | <MatrAssign> <Struct2>
+<Assignment> ::= <Call Variable> '=' <Assign2> ';'
            
-<Struct2> ::= '=' <Assign2>
-            | Unary_Operators
-           
-<Assign2> ::= 'global' '.' Identifier <MatrAssign>
-            | 'local' '.' Identifier <MatrAssign>
-            | Identifier <NotVar> 
-            | <Value Param>
+<Assign2> ::=  <Call Procedure_Function>
             | <Expression>
 
-<NotVar> ::= '.' Identifier <MatrAssign>
-           | '(' <Value Assignment> <ListArg> ')'
-           | <>
+<Paths> ::= <Struct> | <MatrAssign> | <>
 
-<ListArg> ::= ',' <Value Assignment> <ListArg>
-            | <>
-              
-<MatrAssign> ::= '[' <MatrAssign2>
-               | <>
+<Struct> ::= '.' Identifier <MatrAssign> | '.' Identifier 
+           !| '(' <Real Param List> ')'
+
+!<ListArg> ::= ',' <Value Assignment> <ListArg>
+!            | <>
                
-<MatrAssign2> ::= <Number> ']' <MatrAssign>
-                | Identifier ']' <MatrAssign>
+<MatrAssign> ::= '[' IntegerNumber ']' <MoreMatrAssign> | '['<Call Variable>']' <MoreMatrAssign>
+              
+<MoreMatrAssign> ::= <MatrAssign> | <>
+               
+!<MatrAssign2> ::= IntegerNumber ']' <MatrAssign>
+                !| Identifier ']' <MatrAssign> 
+                !| <>
                 
-<Value Assignment> ::= <Value Param>
-                     | <Call Variable>
+!<Value Assignment> ::= <Value Param>
+!                    | <Call Variable>
                
 ! -------------------------------------------------------------------------------------------------------------------------
 !Chamada de procedimentos
-<Call Procedure> ::= Identifier '('<Real Param List>')' ';'
+<Call Procedure_Function> ::= Identifier '('<Real Param List>')' ';'
 
 <Real Param List> ::= <Value Param> <More Real Param>
                     | <Call Variable> <More Real Param>
@@ -226,11 +220,4 @@ Times_division = ( '*' | '/' )
 ! -------------------------------------------------------------------------------------------------------------------------
 !Chamada do retorno
                    
-<Return> ::= 'return' <Return Values> ';'
-          
-<Return Values> ::= <Call Variable>
-                  | <Number> 
-                  | CadeCaracters 
-                  | 'true' 
-                  | 'false'
-                  | <Expression>
+<Return> ::= 'return' <Expression> ';'
