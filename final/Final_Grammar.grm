@@ -105,6 +105,7 @@ Boleanos = ( 'true' | 'false' )
 <Expression> ::= <LogicalExp>
               
 <Full_LogicalExp> ::= <Full_RelationalExp> Logical_Operators <LogicalExp>
+                   | '(' <Full_LogicalExp> ')'
                    | <Full_RelationalExp>
                    
 <Full_RelationalExp> ::= <AritmeticExp> <Poss_RelExp>
@@ -117,7 +118,7 @@ Boleanos = ( 'true' | 'false' )
                | '(' <LogicalExp> ')'
                | <RelationalExp>
 
-<RelationalExp> ::= <AritmeticExp> <InequalExp> <EqualExp>                  
+<RelationalExp> ::= <AritmeticExp> <InequalExp> <EqualExp> |                
                
 <EqualExp> ::= RelationalLessPrec <AritmeticExp> <InequalExp> <EqualExp>
              | <>
