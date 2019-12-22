@@ -93,7 +93,7 @@ Times_division = ( '*' | '/' )
 ! -------------------------------------------------------------------------------------------------------------------------              
 !Escopo de comandos possíveis para funções e procedimentos                
 <Commands> ::= <If Statement> <Commands> | <While Statement> <Commands> | <Read Statement> <Commands> | <Print Statement> <Commands>
-             | <Assignment> <Commands> | <Call Procedure> <Commands> | <>
+             | <Assignment> <Commands> | <Call Procedure_Function> <Commands> ';' | <>
 
 ! -------------------------------------------------------------------------------------------------------------------------                      
 !Escopo para expressões
@@ -122,14 +122,16 @@ Times_division = ( '*' | '/' )
 <OpMultiplication> ::= Times_division <OpUnary> <OpMultiplication>
                      | <>
                     
-<OpUnary> ::= Unary_Operators '(' <AritmeticExp> ')'
-            | '!' <Call Variable>
-            | '(' <AritmeticExp> ')'
+<OpUnary> ::= <SubExp> Unary_Operators 
+            | <SubExp>
+            | '(' <AritmeticExp> ')'  
 
-<Call Variable> ::= 'global' '.' Identifier
-                  | 'local' '.' Identifier
-                  | Identifier
-              
+<SubExp> ::= '!' <Call Variable> | <Call Variable> | <Number>
+
+<Call Variable> ::= Modifiers '.' Identifier <MatrAssign>
+                  | Modifiers '.' Identifier
+                  | Identifier <Paths> 
+                               
 ! -------------------------------------------------------------------------------------------------------------------------
 !Estrutura do if/else
 <If Statement> ::= 'if' '('<Expression>')' 'then' '{'<Commands>'}' <Else Statement>
@@ -175,45 +177,22 @@ Times_division = ( '*' | '/' )
                    
 ! -------------------------------------------------------------------------------------------------------------------------
 !Escopo da atribuição
-<Assignment> ::= 'global' '.' <AssignmentID>
-               | 'local' '.' <AssignmentID>
-               | <AssignmentID>
-               
-<AssignmentID> ::= Identifier <Struct>
-               
-<Struct> ::= '.' Identifier <Struct3>
-           | <Struct3>
+<Assignment> ::= <Call Variable> '=' <Assign2> ';'
            
-<Struct3> ::= <MatrAssign> <Struct2>
-                       
-<Struct2> ::= '=' <Assign2>
-            | Unary_Operators
-           
-<Assign2> ::= 'global' '.' Identifier <MatrAssign>
-            | 'local' '.' Identifier <MatrAssign>
-            | Identifier <NotVar> 
-            | <Value Param>
+<Assign2> ::=  <Call Procedure_Function>
             | <Expression>
 
-<NotVar> ::= '.' Identifier <MatrAssign>
-           | '(' <Value Assignment> <ListArg> ')'
-           | <>
+<Paths> ::= <Struct> | <MatrAssign> | <>
 
-<ListArg> ::= ',' <Value Assignment> <ListArg>
-            | <>
-              
-<MatrAssign> ::= '[' <MatrAssign2>
-               | <>
+<Struct> ::= '.' Identifier <MatrAssign> | '.' Identifier
                
-<MatrAssign2> ::= <Number> ']' <MatrAssign>
-                | Identifier ']' <MatrAssign>
-                
-<Value Assignment> ::= <Value Param>
-                     | <Call Variable>
+<MatrAssign> ::= '[' IntegerNumber ']' <MoreMatrAssign> | '['<Call Variable>']' <MoreMatrAssign> 
+              
+<MoreMatrAssign> ::= <MatrAssign> | <>
                
 ! -------------------------------------------------------------------------------------------------------------------------
 !Chamada de procedimentos
-<Call Procedure> ::= Identifier '('<Real Param List>')' ';'
+<Call Procedure_Function> ::= Identifier '('<Real Param List>')'
 
 <Real Param List> ::= <Value Param> <More Real Param>
                     | <Call Variable> <More Real Param>
@@ -229,11 +208,5 @@ Times_division = ( '*' | '/' )
 ! -------------------------------------------------------------------------------------------------------------------------
 !Chamada do retorno
                    
-<Return> ::= 'return' <Return Values> ';'
+<Return> ::= 'return' <Expression> ';'
           
-<Return Values> ::= <Call Variable>
-                  | <Number> 
-                  | CadeCaracters 
-                  | 'true' 
-                  | 'false'
-                  | <Expression>

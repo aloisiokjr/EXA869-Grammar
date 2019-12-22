@@ -16,7 +16,7 @@ function int start (){
     }
     numLocal = 3;
     numAux = 1.1;
-    while (!numLocal) {
+    while (numLocal < 3) {
         a = mudaNum (a);
     }
 
@@ -27,13 +27,13 @@ function int start (){
 function int mudaNum (real a){
 	var {
     	}    
-	if (!a) then {
+	if (a < 2) then {
         	a++;
     	} else {
-        	if (!a) then {
+        	if (a < 5) then {
             	a = a + 2;
         	} else {
-            		if (!a) then {
+            		if (a < 10) then {
                		a = a + 3;
             		}
         	}
