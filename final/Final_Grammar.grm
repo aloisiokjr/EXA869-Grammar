@@ -100,6 +100,15 @@ Modifiers = ( 'local' | 'global' )
 ! -------------------------------------------------------------------------------------------------------------------------                      
 !Escopo para expressões
 <Expression> ::= <LogicalExp>
+              
+<Full_LogicalExp> ::= <Full_RelationalExp> Logical_Operators <LogicalExp>
+                   | <Full_RelationalExp>
+                   
+<Full_RelationalExp> ::= <AritmeticExp> <Poss_RelExp>
+                      | <Call Variable>
+                      | '!' <Call Variable>
+                      
+<Poss_RelExp> ::= <AritmeticExp> <InequalExp> <EqualExp> | RelationalLessPrec <AritmeticExp> | RelationalMorePrec <InequalExp>
 
 <LogicalExp> ::= <RelationalExp> Logical_Operators <LogicalExp>
                | '(' <LogicalExp> ')'
@@ -133,17 +142,17 @@ Modifiers = ( 'local' | 'global' )
 
 <Call Variable> ::= Modifiers '.' Identifier <MatrAssign>
                   | Modifiers '.' Identifier
-                  | Identifier <Paths>  
+                  | Identifier <Paths> 
                                
 ! -------------------------------------------------------------------------------------------------------------------------
 !Estrutura do if/else
-<If Statement> ::= 'if' '('<Expression>')' 'then' '{'<Commands>'}' <Else Statement>
+<If Statement> ::= 'if' '('<Full_LogicalExp>')' 'then' '{'<Commands>'}' <Else Statement>
                 
 <Else Statement> ::= 'else' '{'<Commands>'}' | <>
               
 ! -------------------------------------------------------------------------------------------------------------------------
 !Estrutura do while
-<while Statement> ::= 'while' '('<Expression>')' '{'<Commands>'}'         
+<while Statement> ::= 'while' '('<Full_LogicalExp>')' '{'<Commands>'}'         
                    
 ! -------------------------------------------------------------------------------------------------------------------------
 !Estrutura do read
