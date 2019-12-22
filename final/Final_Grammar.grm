@@ -123,14 +123,15 @@ Times_division = ( '*' | '/' )
                      | <>
                     
 <OpUnary> ::= <SubExp> Unary_Operators 
-            | <SubExp>
+            | <SubExp> 
+            | Unary_Operators <SubExp> 
             | '(' <AritmeticExp> ')'  
 
 <SubExp> ::= '!' <Call Variable> | <Call Variable> | <Number>
 
 <Call Variable> ::= Modifiers '.' Identifier <MatrAssign>
                   | Modifiers '.' Identifier
-                  | Identifier <Paths> 
+                  | Identifier <Paths>  
                                
 ! -------------------------------------------------------------------------------------------------------------------------
 !Estrutura do if/else
