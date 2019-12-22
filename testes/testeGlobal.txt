@@ -24,9 +24,7 @@ function int start (){
     return 0;
 }
 
-function int mudaNum (real a){
-	var {
-    	}    
+function int mudaNum (real a){    
 	if (a < 2) then {
         	a++;
     	} else {
@@ -41,6 +39,6 @@ function int mudaNum (real a){
     	return a;
 }
 
-procedure aumentaNum (int a){
+procedure aumentaNum (int a){   
     a = a + 20;
 }
