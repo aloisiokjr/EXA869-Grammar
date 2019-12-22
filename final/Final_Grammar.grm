@@ -111,7 +111,7 @@ Boleanos = ( 'true' | 'false' )
                       | <Call Variable>
                       | '!' <Call Variable>
                       
-<Poss_RelExp> ::= <AritmeticExp> <InequalExp> <EqualExp> |  RelationalLessPrec <AritmeticExp> | RelationalMorePrec <AritmeticExp>
+<Poss_RelExp> ::= <AritmeticExp> <InequalExp> <EqualExp> |  RelationalLessPrec <AritmeticExp> <RelationalExp> | RelationalMorePrec <AritmeticExp> <RelationalExp> 
 
 <LogicalExp> ::= <RelationalExp> Logical_Operators <LogicalExp>
                | '(' <LogicalExp> ')'
@@ -193,7 +193,7 @@ Boleanos = ( 'true' | 'false' )
                    
 ! -------------------------------------------------------------------------------------------------------------------------
 !Escopo da atribuição
-<Assignment> ::= <Call Variable> '=' <Assign2> ';' | <Assign2> ';'
+<Assignment> ::= <Call Variable> '=' <Assign2> ';' | <Unary_Op> ';'
               
 <Assign2> ::=  <Call Procedure_Function>
             | <Expression>
@@ -221,8 +221,6 @@ Boleanos = ( 'true' | 'false' )
                     | <>
                    
 <Value Param> ::= <Number> | CadeCaracters | Boleanos
-               
-!<Not Number> ::= CadeCaracters | Boleanos
          
 ! -------------------------------------------------------------------------------------------------------------------------
 !Chamada do retorno
