@@ -32,6 +32,8 @@ Plus_Minus = ( '+' | '-' )
            
 Times_division = ( '*' | '/' )
                
+Modifiers = ( 'local' | 'global' )
+               
 <Number> ::= IntegerNumber | RealNumber
                    
 ! ------------------------------------------------------------------------------------------------------------------------- RULES
