@@ -33,6 +33,8 @@ Plus_Minus = ( '+' | '-' )
 Times_division = ( '*' | '/' )
                
 Modifiers = ( 'local' | 'global' )
+          
+Boleanos = ( 'true' | 'false' )
                
 <Number> ::= IntegerNumber | RealNumber
                    
@@ -58,7 +60,7 @@ Modifiers = ( 'local' | 'global' )
                            
 <Const Values Attribution> ::= Identifier '=' <Value Const>  
                                               
-<Value Const> ::= <Number> | CadeCaracters | 'true' | 'false'
+<Value Const> ::= <Number> | CadeCaracters | Boleanos
 
 ! -------------------------------------------------------------------------------------------------------------------------         
 !Declaração de valores de variaveis     
@@ -85,7 +87,7 @@ Modifiers = ( 'local' | 'global' )
 <Functions_Procedures> ::= 'function' Type Identifier '(' <Param List> ')' '{' 'var' '{' <Var Values Declaration> '}' <Commands> <Return> '}' <Functions_Procedures>
                          | 'procedure' Identifier '(' <Param List> ')' '{' 'var' '{' <Var Values Declaration> '}' <Commands> '}' <Functions_Procedures>
                          | <>
-
+  
 !Escopo da lista de parâmetros
 <Param List> ::= Type Identifier <More Param>
                | <>
@@ -109,7 +111,7 @@ Modifiers = ( 'local' | 'global' )
                       | <Call Variable>
                       | '!' <Call Variable>
                       
-<Poss_RelExp> ::= <AritmeticExp> <InequalExp> <EqualExp> | RelationalLessPrec <AritmeticExp> | RelationalMorePrec <InequalExp>
+<Poss_RelExp> ::= <AritmeticExp> <InequalExp> <EqualExp> |  RelationalLessPrec <AritmeticExp> | RelationalMorePrec <AritmeticExp>
 
 <LogicalExp> ::= <RelationalExp> Logical_Operators <LogicalExp>
                | '(' <LogicalExp> ')'
@@ -138,10 +140,10 @@ Modifiers = ( 'local' | 'global' )
             | <SubExp> 
             | '(' <AritmeticExp> ')'  
             
-<Unary_Op> ::= Unary_Operators <SubExp> | <SubExp> Unary_Operators | '!' <Call Variable>
+<Unary_Op> ::= Unary_Operators <SubExp> | <SubExp> Unary_Operators | '!' <Call Variable> 
 
-<SubExp> ::=  <Call Variable> | <Number>
-
+<SubExp> ::=  <Call Variable> | <Number> | Boleanos
+        
 <Call Variable> ::= Modifiers '.' Identifier <MatrAssign>
                   | Modifiers '.' Identifier
                   | Identifier <Paths> 
@@ -195,7 +197,7 @@ Modifiers = ( 'local' | 'global' )
               
 <Assign2> ::=  <Call Procedure_Function>
             | <Expression>
-            | <Not Number>
+            | CadeCaracters 
 
 <Paths> ::= <Struct> | <MatrAssign> | <>
 
@@ -218,9 +220,9 @@ Modifiers = ( 'local' | 'global' )
 <More Real Param> ::= ',' <Real Param List>
                     | <>
                    
-<Value Param> ::= <Number> | <Not Number>
+<Value Param> ::= <Number> | CadeCaracters | Boleanos
                
-<Not Number> ::= CadeCaracters | 'true' | 'false'
+!<Not Number> ::= CadeCaracters | Boleanos
          
 ! -------------------------------------------------------------------------------------------------------------------------
 !Chamada do retorno
