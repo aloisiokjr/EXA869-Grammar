@@ -126,7 +126,8 @@ Modifiers = ( 'local' | 'global' )
                      | <>
                     
 <OpUnary> ::= <SubExp> Unary_Operators 
-            | <SubExp>
+            | <SubExp> 
+            | Unary_Operators <SubExp> 
             | '(' <AritmeticExp> ')'  
 
 <SubExp> ::= '!' <Call Variable> | <Call Variable> | <Number>
