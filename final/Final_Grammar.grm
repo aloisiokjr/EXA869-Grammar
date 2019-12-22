@@ -186,21 +186,10 @@ Times_division = ( '*' | '/' )
 <Paths> ::= <Struct> | <MatrAssign> | <>
 
 <Struct> ::= '.' Identifier <MatrAssign> | '.' Identifier 
-           !| '(' <Real Param List> ')'
-
-!<ListArg> ::= ',' <Value Assignment> <ListArg>
-!            | <>
                
 <MatrAssign> ::= '[' IntegerNumber ']' <MoreMatrAssign> | '['<Call Variable>']' <MoreMatrAssign>
               
 <MoreMatrAssign> ::= <MatrAssign> | <>
-               
-!<MatrAssign2> ::= IntegerNumber ']' <MatrAssign>
-                !| Identifier ']' <MatrAssign> 
-                !| <>
-                
-!<Value Assignment> ::= <Value Param>
-!                    | <Call Variable>
                
 ! -------------------------------------------------------------------------------------------------------------------------
 !Chamada de procedimentos
