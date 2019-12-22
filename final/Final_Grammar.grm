@@ -32,6 +32,8 @@ Plus_Minus = ( '+' | '-' )
            
 Times_division = ( '*' | '/' )
                
+Modifiers = ( 'local' | 'global' )
+               
 <Number> ::= IntegerNumber | RealNumber
                    
 ! ------------------------------------------------------------------------------------------------------------------------- RULES
@@ -129,9 +131,9 @@ Times_division = ( '*' | '/' )
 
 <SubExp> ::= '!' <Call Variable> | <Call Variable> | <Number>
 
-<Call Variable> ::= 'global' '.' Identifier <Paths>
-                  | 'local' '.' Identifier <Paths>
-                  | Identifier <Paths>
+<Call Variable> ::= Modifiers '.' Identifier <MatrAssign>
+                  | Modifiers '.' Identifier
+                  | Identifier <Paths> 
               
 ! -------------------------------------------------------------------------------------------------------------------------
 !Estrutura do if/else
@@ -185,9 +187,9 @@ Times_division = ( '*' | '/' )
 
 <Paths> ::= <Struct> | <MatrAssign> | <>
 
-<Struct> ::= '.' Identifier <MatrAssign> | '.' Identifier 
+<Struct> ::= '.' Identifier <MatrAssign> | '.' Identifier
                
-<MatrAssign> ::= '[' IntegerNumber ']' <MoreMatrAssign> | '['<Call Variable>']' <MoreMatrAssign>
+<MatrAssign> ::= '[' IntegerNumber ']' <MoreMatrAssign> | '['<Call Variable>']' <MoreMatrAssign> 
               
 <MoreMatrAssign> ::= <MatrAssign> | <>
                
