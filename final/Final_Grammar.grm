@@ -184,6 +184,7 @@ Modifiers = ( 'local' | 'global' )
            
 <Assign2> ::=  <Call Procedure_Function>
             | <Expression>
+            | <Not Number>
 
 <Paths> ::= <Struct> | <MatrAssign> | <>
 
@@ -206,7 +207,9 @@ Modifiers = ( 'local' | 'global' )
 <More Real Param> ::= ',' <Real Param List>
                     | <>
                    
-<Value Param> ::= <Number> | CadeCaracters | 'true' | 'false'
+<Value Param> ::= <Number> | <Not Number>
+               
+<Not Number> ::= CadeCaracters | 'true' | 'false'
          
 ! -------------------------------------------------------------------------------------------------------------------------
 !Chamada do retorno
