@@ -165,7 +165,6 @@ Boleanos = ( 'true' | 'false' )
 <Read Params> ::= <Array Param> <More Read Params>
                 | <CompositeType Param> <More Read Params>
                 | <Call Variable> <More Read Params>
-                | <>
 
 <More Read Params> ::= ',' <Read Params>
                      | <>
@@ -178,7 +177,6 @@ Boleanos = ( 'true' | 'false' )
                  | <Array Param> <More Print Params>
                  | <Call Variable> <More Print Params>
                  | <CompositeType Param> <More Print Params>
-                 | <>
 
 <More Print Params> ::= ',' <Print Params>
                       | <>
