@@ -1,5 +1,6 @@
 ﻿"Name" = 'Final_Grammar' 
-"Author" = 'EXA869-P02'
+"
+Author" = 'EXA869-P02'
 "Version" = '1.0'
 "Start Symbol" = <Start>
                
@@ -18,7 +19,7 @@ IntegerNumber = {Digit}{Digit}*
        
 CadeCaracters = '"' ( {String Chars} | '\' {Printable} )* '"'
               
-Type  = ('int' | 'real' | 'boolean' | 'string')
+Type  = ('int' | 'real' | 'boolean' | 'string' | Identifier )
          
 Unary_Operators = ( '++' | '--' )
                 
