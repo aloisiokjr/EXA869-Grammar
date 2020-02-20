@@ -97,8 +97,10 @@ Boleanos = ( 'true' | 'false' )
 
 ! -------------------------------------------------------------------------------------------------------------------------              
 !Escopo de comandos possíveis para funções e procedimentos                
-<Commands> ::= <If Statement> <Commands> | <While Statement> <Commands> | <Read Statement> <Commands> | <Print Statement> <Commands>
-             | <Assignment> <Commands> | <Call Procedure_Function> <Commands> | <>
+<Commands> ::= <Command> <Commands> | <> 
+             
+<Command> ::= <If Statement> | <While Statement> | <Read Statement> | <Print Statement> 
+             | <Assignment> | <Call Procedure_Function>
 
 ! -------------------------------------------------------------------------------------------------------------------------                      
 !Escopo para expressões
