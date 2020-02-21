@@ -106,8 +106,9 @@ Boleanos = ( 'true' | 'false' )
 !Escopo para expressões
 <Expression> ::= <LogicalExp>
               
-<Full_LogicalExp> ::= <Full_RelationalExp> Logical_Operators <LogicalExp>
-                   | <Full_RelationalExp>
+<Full_LogicalExp> ::= <Full_RelationalExp> <OptLogExp>
+                   
+<OptLogExp> ::= Logical_Operators <LogicalExp> | <>
                    
 <Full_RelationalExp> ::= <AritmeticExp> <Poss_RelExp>
                       | <Call Variable>
@@ -173,8 +174,9 @@ Boleanos = ( 'true' | 'false' )
 !Estrutura do print
 <Print Statement> ::= print '('<Print Params>')' ';'
                    
-<Print Params> ::= CadeCaracters <More Print Params>
-                 | <Call Variable> <More Print Params>
+<Print Params> ::= <Print param> <More Print Params>
+                 
+<Print param> ::= CadeCaracters | <Call Variable>
 
 <More Print Params> ::= ',' <Print Params>
                       | <>
@@ -207,10 +209,12 @@ Boleanos = ( 'true' | 'false' )
 !Chamada de procedimentos
 <Call Procedure_Function> ::= Identifier '('<Real Param List>')' ';'
 
-<Real Param List> ::= <Value Param> <More Real Param>
-                    | <Call Variable> <More Real Param>
+<Real Param List> ::= <Real Param> <More Real Param>
+                    | <>
+                    
+<Real Param> ::= <Value Param> | <Call Variable>
                 
-<More Real Param> ::= ',' <Real Param List>
+<More Real Param> ::= ',' <Real Param> <More Real Param>
                     | <>
                    
 <Value Param> ::= <Number> | CadeCaracters | Boleanos
