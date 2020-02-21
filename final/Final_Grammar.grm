@@ -89,11 +89,11 @@ Boleanos = ( 'true' | 'false' )
                          | <>
   
 !Escopo da lista de parâmetros
-<Param List> ::= Type Identifier <More Param>
-               | <>
+<Param List> ::= <Param> | <>
               
-<More Param> ::= ',' Type Identifier <More Param>
-               | <>
+<Param> ::= Type Identifier <More Param>
+              
+<More Param> ::= ',' <Param> | <>
 
 ! -------------------------------------------------------------------------------------------------------------------------              
 !Escopo de comandos possíveis para funções e procedimentos                
@@ -146,9 +146,9 @@ Boleanos = ( 'true' | 'false' )
 
 <SubExp> ::=  <Call Variable> | <Number> | Boleanos
         
-<Call Variable> ::= Modifiers '.' Identifier <MatrAssign>
-                  | Modifiers '.' Identifier
-                  | Identifier <Paths> 
+<Call Variable> ::= <Modifier> Identifier <Paths> 
+                  
+<Modifier> ::= Modifiers '.' | <>
               
 ! -------------------------------------------------------------------------------------------------------------------------
 !Estrutura do if/else
@@ -164,9 +164,7 @@ Boleanos = ( 'true' | 'false' )
 !Estrutura do read
 <Read Statement> ::= read '('<Read Params>')' ';'
                   
-<Read Params> ::= <Array Param> <More Read Params>
-                | <CompositeType Param> <More Read Params>
-                | <Call Variable> <More Read Params>
+<Read Params> ::= <Call Variable> <More Read Params>
 
 <More Read Params> ::= ',' <Read Params>
                      | <>
@@ -176,20 +174,18 @@ Boleanos = ( 'true' | 'false' )
 <Print Statement> ::= print '('<Print Params>')' ';'
                    
 <Print Params> ::= CadeCaracters <More Print Params>
-                 | <Array Param> <More Print Params>
                  | <Call Variable> <More Print Params>
-                 | <CompositeType Param> <More Print Params>
 
 <More Print Params> ::= ',' <Print Params>
                       | <>
                     
-<Argument Array> ::= IntegerNumber | <Call Variable>
+!<Argument Array> ::= IntegerNumber | <Call Variable>
 
-<Array Param> ::= Identifier '[' <Argument Array> ']' <More Array Column>
+!<Array Param> ::= Identifier '[' <Argument Array> ']' <More Array Column>
 
-<More Array Column> ::= '[' <Argument Array> ']' <More Array Column> | <>
+!<More Array Column> ::= '[' <Argument Array> ']' <More Array Column> | <>
 
-<CompositeType Param> ::= Identifier <Array Verification> '.' Identifier <Array Verification>
+!<CompositeType Param> ::= Identifier <Array Verification> '.' Identifier <Array Verification>
                    
 ! -------------------------------------------------------------------------------------------------------------------------
 !Escopo da atribuição
@@ -201,11 +197,11 @@ Boleanos = ( 'true' | 'false' )
 
 <Paths> ::= <Struct> | <MatrAssign> | <>
 
-<Struct> ::= '.' Identifier <MatrAssign> | '.' Identifier
+<Struct> ::= '.' Identifier <Paths>
                
-<MatrAssign> ::= '[' IntegerNumber ']' <MoreMatrAssign> | '['<Call Variable>']' <MoreMatrAssign> 
+<MatrAssign> ::= <Cell> <Paths>
               
-<MoreMatrAssign> ::= <MatrAssign> | <>
+<Cell> ::= '[' IntegerNumber ']' | '['<Call Variable>']'
                
 ! -------------------------------------------------------------------------------------------------------------------------
 !Chamada de procedimentos
@@ -213,9 +209,6 @@ Boleanos = ( 'true' | 'false' )
 
 <Real Param List> ::= <Value Param> <More Real Param>
                     | <Call Variable> <More Real Param>
-                    | <Array Param> <More Real Param>
-                    | <CompositeType Param> <More Real Param>
-                    | <>
                 
 <More Real Param> ::= ',' <Real Param List>
                     | <>
