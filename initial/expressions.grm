@@ -42,13 +42,15 @@ Times_division = ( '*' | '/' )
                 | '(' <LogicalExp> ')'
                 | <RelationalExp>
 
-<RelationalExp> ::= <AritmeticExp> <InequalExp> <EqualExp>                  
+<RelationalExp> ::= <AritmeticExp> <InequalExp> <EqualExp>
+                 | <AritmeticExp> <InequalExp>
+                 | <AritmeticExp> <EqualExp>                 
                
 <EqualExp> ::= RelationalLessPrec <AritmeticExp> <InequalExp> <EqualExp>
-            | <>
+            | RelationalLessPrec <AritmeticExp>
 
 <InequalExp> ::= RelationalMorePrec <AritmeticExp> <InequalExp> 
-              | <> 
+              |  RelationalMorePrec <AritmeticExp>
                          
 <AritmeticExp>  ::= <Operacao> <OpSoma>
                  | '(' <RelationalExp> ')'
