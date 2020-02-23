@@ -16,7 +16,7 @@ function int start (){
     }
     numLocal = 3;
     numAux = 1.1;
-    while (numLocal < 40) {
+    while (numLocal < 3) {
         a = mudaNum (a);
     }
 
@@ -24,21 +24,21 @@ function int start (){
     return 0;
 }
 
-function mudaNum (float a){
-    if (a <= 10) then {
-        a++;
-    } else {
-        if (a <= 20) then {
-            a = a + 2;
-        } else {
-            if (a <= 30) then {
-                a = a + 3;
-            }
-        }
-    }
-    return a;
+function int mudaNum (real a){    
+	if (a < 2) then {
+        	a++;
+    	} else {
+        	if (a < 5) then {
+            	a = a + 2;
+        	} else {
+            		if (a < 10) then {
+               		a = a + 3;
+            		}
+        	}
+    	}
+    	return a;
 }
 
-procedure aumentaNum (int a){
+procedure aumentaNum (int a){   
     a = a + 20;
 }

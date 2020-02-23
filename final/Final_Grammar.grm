@@ -1,4 +1,4 @@
-﻿"Name" = 'Final_Grammar' 
+"Name" = 'Final_Grammar' 
 "Author" = 'EXA869-P02'
 "Version" = '1.0'
 "Start Symbol" = <Start>
@@ -39,7 +39,6 @@ Boleanos = ( 'true' | 'false' )
 <Number> ::= IntegerNumber | RealNumber
                    
 ! ------------------------------------------------------------------------------------------------------------------------- RULES
-
 !Escopo Global
 
 <Start> ::= <Global Values> <Functions_Procedures>
@@ -79,8 +78,8 @@ Boleanos = ( 'true' | 'false' )
 
 <IDE_Struct> ::= Identifier <IDE_Struct2>
               
-<IDE_Struct2> ::= '{' 'var' <Var Values Declaration> '}' ';' 
-                | 'extends' Identifier '{' 'var' <Var Values Declaration> '}' ';'
+<IDE_Struct2> ::= '{' 'var' '{' <Var Values Declaration> '}' '}' 
+                | 'extends' Identifier '{' 'var' '{' <Var Values Declaration> '}' '}'
                   
 ! -------------------------------------------------------------------------------------------------------------------------                          
 !Escopo para a declaração de funções e procedimentos                 
@@ -150,7 +149,7 @@ Boleanos = ( 'true' | 'false' )
 <Call Variable> ::= <Modifier> Identifier <Paths> 
                   
 <Modifier> ::= Modifiers '.' | <>
-              
+
 ! -------------------------------------------------------------------------------------------------------------------------
 !Estrutura do if/else
 <If Statement> ::= 'if' '('<Full_LogicalExp>')' 'then' '{'<Commands>'}' <Else Statement>

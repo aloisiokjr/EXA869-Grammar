@@ -18,8 +18,11 @@ Desenvolver as regras da gramática conforme as especificações passadas pelo p
 ### Ferramenta para desenvolvimento:
 [Gold Parser Builder](http://www.goldparser.org/).
 
-### Procedimentos para execução do código:
-A EDITAR
+### Procedimentos para execução da gramática:
+1. Baixar o arquivo através [deste link](https://github.com/aloisiokjr/EXA869-Grammar/releases).
+2. Descompactar o arquivo zipado.
+3. Abrir a pasta "final", presente na raiz do projeto.
+4. Abrir o arquivo "Final_Grammar" com o Gold Parser Builder
 
 ### Colaboradores:
 A lista com os colaboradores do projeto pode ser visto [aqui](https://github.com/aloisiokjr/EXA869-Grammar/graphs/contributors).
