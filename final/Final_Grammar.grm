@@ -1,4 +1,4 @@
-"Name" = 'Final_Grammar' 
+﻿"Name" = 'Final_Grammar' 
 "Author" = 'EXA869-P02'
 "Version" = '1.0'
 "Start Symbol" = <Start>
@@ -36,8 +36,10 @@ Modifiers = ( 'local' | 'global' )
           
 Boleanos = ( 'true' | 'false' )
                
-<Number> ::= IntegerNumber | RealNumber
-                   
+<Number> ::= Plus_Minus <OptNumbers> | <OptNumbers> 
+
+<OptNumbers> ::= IntegerNumber | RealNumber
+                 
 ! ------------------------------------------------------------------------------------------------------------------------- RULES
 !Escopo Global
 
@@ -103,32 +105,34 @@ Boleanos = ( 'true' | 'false' )
 
 ! -------------------------------------------------------------------------------------------------------------------------                      
 !Escopo para expressões
-<Expression> ::= <LogicalExp>
+!<Expression> ::= <LogicalExp>
               
-<Full_LogicalExp> ::= <Full_RelationalExp> <OptLogExp>
-                   
-<OptLogExp> ::= Logical_Operators <LogicalExp> | <>
-                   
-<Full_RelationalExp> ::= <AritmeticExp> <Poss_RelExp>
-                      | <Call Variable>
-                      | '!' <Call Variable>
-                      
-<Poss_RelExp> ::= <AritmeticExp> <InequalExp> <EqualExp> |  RelationalLessPrec <AritmeticExp> | RelationalMorePrec <AritmeticExp> 
-
-<LogicalExp> ::= <RelationalExp> Logical_Operators <LogicalExp>
+<Expression> ::= <Full_RelationalExp> <OptLogicalExp>
+            
+<Full_RelationalExp> ::= <AritmeticExp> <OptRelExp>
+                      !| <Call Variable>
+                      !| '!' <Call Variable>
+       
+<OptLogicalExp> ::= Logical_Operators <LogicalExp> | <>
+                 
+<LogicalExp> ::= <Full_RelationalExp>  Logical_Operators <LogicalExp>
                | '(' <LogicalExp> ')'
-               | <RelationalExp>
-
-<RelationalExp> ::= <AritmeticExp> <InequalExp> <EqualExp>                  
-               
-<EqualExp> ::= RelationalLessPrec <AritmeticExp> <InequalExp> <EqualExp>
+               | <Full_RelationalExp> 
+                      
+<OptRelExp> ::= <AritmeticExp> <InequalityExp>  <EqualityExp>
+             | RelationalLessPrec <AritmeticExp> 
+             | RelationalMorePrec <AritmeticExp> 
+             
+<EqualityExp> ::= RelationalLessPrec <AritmeticExp> <InequalityExp> <EqualityExp>
              | <>
 
-<InequalExp> ::= RelationalMorePrec <AritmeticExp> <InequalExp> 
+<InequalityExp> ::= RelationalMorePrec <AritmeticExp> <InequalityExp> 
                | <> 
-                         
+
+!<RelationalExp> ::= <AritmeticExp> <InequalityExp>  <EqualityExp>                
+                                        
 <AritmeticExp> ::= <Operation> <OpSum>
-                 | '(' <RelationalExp> ')'
+                 | '(' <Full_RelationalExp>  ')'
                  
 <Operation> ::= <OpUnary> <OpMultiplication>
 
@@ -139,26 +143,24 @@ Boleanos = ( 'true' | 'false' )
                      | <>
                     
 <OpUnary> ::= <Unary_Op>
-            | <SubExp> 
+            | <Final_Value> 
             | '(' <AritmeticExp> ')'  
             
-<Unary_Op> ::= Unary_Operators <SubExp> | <SubExp> Unary_Operators | '!' <Call Variable> 
+<Unary_Op> ::= Unary_Operators <Final_Value> | <Final_Value>  Unary_Operators | '!' <Call Variable> 
 
-<SubExp> ::=  <Call Variable> | <Number> | Boleanos
+<Final_Value> ::=  <Call Variable> | <Number> | Boleanos
         
-<Call Variable> ::= <Modifier> Identifier <Paths> 
-                  
-<Modifier> ::= Modifiers '.' | <>
+<Call Variable> ::=  Modifiers '.' Identifier <Paths> 
 
 ! -------------------------------------------------------------------------------------------------------------------------
 !Estrutura do if/else
-<If Statement> ::= 'if' '('<Full_LogicalExp>')' 'then' '{'<Commands>'}' <Else Statement>
+<If Statement> ::= 'if' '('<Expression>')' 'then' '{'<Commands>'}' <Else Statement>
                 
 <Else Statement> ::= 'else' '{'<Commands>'}' | <>
               
 ! -------------------------------------------------------------------------------------------------------------------------
 !Estrutura do while
-<while Statement> ::= 'while' '('<Full_LogicalExp>')' '{'<Commands>'}'         
+<while Statement> ::= 'while' '('<Expression>')' '{'<Commands>'}'         
                    
 ! -------------------------------------------------------------------------------------------------------------------------
 !Estrutura do read
@@ -192,7 +194,7 @@ Boleanos = ( 'true' | 'false' )
 !Escopo da atribuição
 <Assignment> ::= <Call Variable> '=' <Assign2> ';' | <Unary_Op> ';'
               
-<Assign2> ::=  <Call Procedure_Function>
+<Assign2> ::= <Call Procedure_Function>
             | <Expression>
             | CadeCaracters 
 
