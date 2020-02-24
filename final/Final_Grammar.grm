@@ -107,17 +107,17 @@ Boleanos = ( 'true' | 'false' )
 !Escopo para expressões
 !<Expression> ::= <LogicalExp>
               
-<Expression> ::= <Full_RelationalExp> <OptLogicalExp>
+<Expression> ::= <RelationalExp> <OptLogicalExp>
             
-<Full_RelationalExp> ::= <AritmeticExp> <OptRelExp>
+<RelationalExp> ::= <AritmeticExp> <OptRelExp>
                       !| <Call Variable>
                       !| '!' <Call Variable>
        
 <OptLogicalExp> ::= Logical_Operators <LogicalExp> | <>
                  
-<LogicalExp> ::= <Full_RelationalExp>  Logical_Operators <LogicalExp>
+<LogicalExp> ::= <RelationalExp>  Logical_Operators <LogicalExp>
                | '(' <LogicalExp> ')'
-               | <Full_RelationalExp> 
+               | <RelationalExp> 
                       
 <OptRelExp> ::= <AritmeticExp> <InequalityExp>  <EqualityExp>
              | RelationalLessPrec <AritmeticExp> 
