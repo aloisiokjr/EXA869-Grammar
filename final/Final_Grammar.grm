@@ -101,38 +101,32 @@ Boleanos = ( 'true' | 'false' )
 <Commands> ::= <Command> <Commands> | <> 
              
 <Command> ::= <If Statement> | <While Statement> | <Read Statement> | <Print Statement> 
-             | <Assignment> | <Call Procedure_Function>
-
+             | <Assignment> | <Call Procedure_Function> ';'
 ! -------------------------------------------------------------------------------------------------------------------------                      
-!Escopo para expressões
-!<Expression> ::= <LogicalExp>
-              
-<Expression> ::= <RelationalExp> <OptLogicalExp>
-            
-<RelationalExp> ::= <AritmeticExp> <OptRelExp>
-                      !| <Call Variable>
-                      !| '!' <Call Variable>
-       
-<OptLogicalExp> ::= Logical_Operators <LogicalExp> | <>
+!Escopo para expressões             
+<Expression> ::= <LogicalExp>
                  
-<LogicalExp> ::= <RelationalExp>  Logical_Operators <LogicalExp>
-               | '(' <LogicalExp> ')'
-               | <RelationalExp> 
+<LogicalExp> ::= <RelationalExp>  <OptLogicalExp>
+
+<OptLogicalExp> ::= Logical_Operators <LogicalExp> | <>
+               
+<RelationalExp> ::= <AritmeticExp> <OptRelExp>
+                    | '(' <LogicalExp> ')'
                       
-<OptRelExp> ::= <AritmeticExp> <InequalityExp>  <EqualityExp>
-             | RelationalLessPrec <AritmeticExp> 
-             | RelationalMorePrec <AritmeticExp> 
+<OptRelExp> ::= <InequalityExp> <EqualityExp>
+             !| RelationalLessPrec <AritmeticExp> 
+             !| RelationalMorePrec <AritmeticExp> 
              
 <EqualityExp> ::= RelationalLessPrec <AritmeticExp> <InequalityExp> <EqualityExp>
              | <>
 
-<InequalityExp> ::= RelationalMorePrec <AritmeticExp> <InequalityExp> 
+<InequalityExp> ::= RelationalMorePrec <AritmeticExp> <EqualityExp> 
                | <> 
 
 !<RelationalExp> ::= <AritmeticExp> <InequalityExp>  <EqualityExp>                
                                         
 <AritmeticExp> ::= <Operation> <OpSum>
-                 | '(' <Full_RelationalExp>  ')'
+                 | '(' <RelationalExp> ')'
                  
 <Operation> ::= <OpUnary> <OpMultiplication>
 
@@ -150,7 +144,9 @@ Boleanos = ( 'true' | 'false' )
 
 <Final_Value> ::=  <Call Variable> | <Number> | Boleanos
         
-<Call Variable> ::=  Modifiers '.' Identifier <Paths> 
+<Call Variable> ::= <Modifier> <Paths> 
+                 
+<Modifier> ::= Modifiers '.' Identifier | Identifier
 
 ! -------------------------------------------------------------------------------------------------------------------------
 !Estrutura do if/else
@@ -194,7 +190,7 @@ Boleanos = ( 'true' | 'false' )
 !Escopo da atribuição
 <Assignment> ::= <Call Variable> '=' <Assign2> ';' | <Unary_Op> ';'
               
-<Assign2> ::= <Call Procedure_Function>
+<Assign2> ::= <Call Procedure_Function> 
             | <Expression>
             | CadeCaracters 
 
@@ -208,7 +204,7 @@ Boleanos = ( 'true' | 'false' )
                
 ! -------------------------------------------------------------------------------------------------------------------------
 !Chamada de procedimentos
-<Call Procedure_Function> ::= Identifier '('<Real Param List>')' ';'
+<Call Procedure_Function> ::= Identifier '(' <Real Param List>')'
 
 <Real Param List> ::= <Real Param> <More Real Param>
                     | <>
