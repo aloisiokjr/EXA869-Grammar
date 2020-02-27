@@ -18,7 +18,7 @@ IntegerNumber = {Digit}{Digit}*
        
 CadeCaracters = '"' ( {String Chars} | '\' {Printable} )* '"'
               
-Type  = ('int' | 'real' | 'boolean' | 'string' | Identifier )
+Type  = ('int' | 'real' | 'boolean' | 'string')
          
 Unary_Operators = ( '++' | '--' )
                 
@@ -39,7 +39,9 @@ Boleanos = ( 'true' | 'false' )
 <Number> ::= Plus_Minus <OptNumbers> | <OptNumbers> 
 
 <OptNumbers> ::= IntegerNumber | RealNumber
-                 
+ 
+<Types> ::= Type | Identifier
+
 ! ------------------------------------------------------------------------------------------------------------------------- RULES
 !Escopo Global
 
@@ -85,14 +87,14 @@ Boleanos = ( 'true' | 'false' )
                   
 ! -------------------------------------------------------------------------------------------------------------------------                          
 !Escopo para a declaração de funções e procedimentos                 
-<Functions_Procedures> ::= 'function' Type Identifier '(' <Param List> ')' '{' 'var' '{' <Var Values Declaration> '}' <Commands> <Return> '}' <Functions_Procedures>
+<Functions_Procedures> ::= 'function' <Types> Identifier '(' <Param List> ')' '{' 'var' '{' <Var Values Declaration> '}' <Commands> <Return> '}' <Functions_Procedures>
                          | 'procedure' Identifier '(' <Param List> ')' '{' 'var' '{' <Var Values Declaration> '}' <Commands> '}' <Functions_Procedures>
                          | <>
   
 !Escopo da lista de parâmetros
 <Param List> ::= <Param> | <>
               
-<Param> ::= Type Identifier <More Param>
+<Param> ::= <Types> Identifier <More Param>
               
 <More Param> ::= ',' <Param> | <>
 
@@ -103,27 +105,31 @@ Boleanos = ( 'true' | 'false' )
 <Command> ::= <If Statement> | <While Statement> | <Read Statement> | <Print Statement> 
              | <Assignment> | <Call Procedure_Function> ';'
 ! -------------------------------------------------------------------------------------------------------------------------                      
-!Escopo para expressões             
+!Escopo para expressões
+!--- Start de expressões para os casos do comando if e while --
+
+<Commands_Exp> ::= <RelationalExp> <OptLogicalExp>
+
+!------------------------------------------------------
 <Expression> ::= <LogicalExp>
-                 
+              | <AritmeticExp>
+                   
 <LogicalExp> ::= <RelationalExp>  <OptLogicalExp>
 
-<OptLogicalExp> ::= Logical_Operators <LogicalExp> | <>
-               
-<RelationalExp> ::= <AritmeticExp> <OptRelExp>
-                    | '(' <LogicalExp> ')'
-                      
-<OptRelExp> ::= <InequalityExp> <EqualityExp>
-             !| RelationalLessPrec <AritmeticExp> 
-             !| RelationalMorePrec <AritmeticExp> 
+<OptLogicalExp> ::= Logical_Operators <LogicalExp> 
+                 | <>
+
+<RelationalExp> ::= <AritmeticExp> <Poss_RelExp>
+                 | '(' <LogicalExp> ')'               
+
+<Poss_RelExp> ::= RelationalLessPrec <AritmeticExp> <InequalExp> <EqualExp> 
+               | RelationalMorePrec <AritmeticExp> <InequalExp>
              
 <EqualityExp> ::= RelationalLessPrec <AritmeticExp> <InequalityExp> <EqualityExp>
              | <>
 
 <InequalityExp> ::= RelationalMorePrec <AritmeticExp> <EqualityExp> 
-               | <> 
-
-!<RelationalExp> ::= <AritmeticExp> <InequalityExp>  <EqualityExp>                
+               | <>             
                                         
 <AritmeticExp> ::= <Operation> <OpSum>
                  | '(' <RelationalExp> ')'
@@ -140,7 +146,7 @@ Boleanos = ( 'true' | 'false' )
             | <Final_Value> 
             | '(' <AritmeticExp> ')'  
             
-<Unary_Op> ::= Unary_Operators <Final_Value> | <Final_Value>  Unary_Operators | '!' <Call Variable> 
+<Unary_Op> ::= Unary_Operators <Final_Value> | <Final_Value> Unary_Operators | '!' <Call Variable> 
 
 <Final_Value> ::=  <Call Variable> | <Number> | Boleanos
         
@@ -150,13 +156,15 @@ Boleanos = ( 'true' | 'false' )
 
 ! -------------------------------------------------------------------------------------------------------------------------
 !Estrutura do if/else
-<If Statement> ::= 'if' '('<Expression>')' 'then' '{'<Commands>'}' <Else Statement>
+
+<If Statement> ::= 'if' '('<Commands_Exp>')' 'then' '{'<Commands>'}' <Else Statement>
                 
 <Else Statement> ::= 'else' '{'<Commands>'}' | <>
               
 ! -------------------------------------------------------------------------------------------------------------------------
 !Estrutura do while
-<while Statement> ::= 'while' '('<Expression>')' '{'<Commands>'}'         
+
+<while Statement> ::= 'while' '('<Commands_Exp>')' '{'<Commands>'}'         
                    
 ! -------------------------------------------------------------------------------------------------------------------------
 !Estrutura do read
@@ -190,7 +198,7 @@ Boleanos = ( 'true' | 'false' )
 !Escopo da atribuição
 <Assignment> ::= <Call Variable> '=' <Assign2> ';' | <Unary_Op> ';'
               
-<Assign2> ::= <Call Procedure_Function> 
+<Assign2> ::= <Call Procedure_Function>
             | <Expression>
             | CadeCaracters 
 
@@ -204,7 +212,8 @@ Boleanos = ( 'true' | 'false' )
                
 ! -------------------------------------------------------------------------------------------------------------------------
 !Chamada de procedimentos
-<Call Procedure_Function> ::= Identifier '(' <Real Param List>')'
+
+<Call Procedure_Function> ::= Identifier '('<Real Param List>')'
 
 <Real Param List> ::= <Real Param> <More Real Param>
                     | <>
