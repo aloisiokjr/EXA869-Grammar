@@ -1,4 +1,4 @@
-"Name" = 'Final_Grammar' 
+﻿"Name" = 'Final_Grammar' 
 "Author" = 'EXA869-P02'
 "Version" = '1.0'
 "Start Symbol" = <Start>
@@ -18,7 +18,7 @@ IntegerNumber = {Digit}{Digit}*
        
 CadeCaracters = '"' ( {String Chars} | '\' {Printable} )* '"'
               
-Type  = ('int' | 'real' | 'boolean' | 'string' | Identifier )
+Type  = ('int' | 'real' | 'boolean' | 'string')
          
 Unary_Operators = ( '++' | '--' )
                 
@@ -36,7 +36,11 @@ Modifiers = ( 'local' | 'global' )
           
 Boleanos = ( 'true' | 'false' )
                
-<Number> ::= IntegerNumber | RealNumber
+<Number> ::= Plus_Minus <OptNumbers> | <OptNumbers> 
+
+<OptNumbers> ::= IntegerNumber | RealNumber
+          
+<Types> ::= Type | Identifier
                    
 ! ------------------------------------------------------------------------------------------------------------------------- RULES
 !Escopo Global
@@ -83,14 +87,14 @@ Boleanos = ( 'true' | 'false' )
                   
 ! -------------------------------------------------------------------------------------------------------------------------                          
 !Escopo para a declaração de funções e procedimentos                 
-<Functions_Procedures> ::= 'function' Type Identifier '(' <Param List> ')' '{' 'var' '{' <Var Values Declaration> '}' <Commands> <Return> '}' <Functions_Procedures>
+<Functions_Procedures> ::= 'function' <Types> Identifier '(' <Param List> ')' '{' 'var' '{' <Var Values Declaration> '}' <Commands> <Return> '}' <Functions_Procedures>
                          | 'procedure' Identifier '(' <Param List> ')' '{' 'var' '{' <Var Values Declaration> '}' <Commands> '}' <Functions_Procedures>
                          | <>
   
 !Escopo da lista de parâmetros
 <Param List> ::= <Param> | <>
               
-<Param> ::= Type Identifier <More Param>
+<Param> ::= <Types> Identifier <More Param>
               
 <More Param> ::= ',' <Param> | <>
 
@@ -99,27 +103,28 @@ Boleanos = ( 'true' | 'false' )
 <Commands> ::= <Command> <Commands> | <> 
              
 <Command> ::= <If Statement> | <While Statement> | <Read Statement> | <Print Statement> 
-             | <Assignment> | <Call Procedure_Function>
+             | <Assignment> | <Call Procedure_Function> ';'
 
 ! -------------------------------------------------------------------------------------------------------------------------                      
 !Escopo para expressões
+!--- Start de expressões para os casos do comando if e while --
+
+<Commands_Exp> ::= <RelationalExp> <OptLogicalExp>
+
+!------------------------------------------------------
 <Expression> ::= <LogicalExp>
-              
-<Full_LogicalExp> ::= <Full_RelationalExp> <OptLogExp>
+              | <AritmeticExp>
                    
-<OptLogExp> ::= Logical_Operators <LogicalExp> | <>
-                   
-<Full_RelationalExp> ::= <AritmeticExp> <Poss_RelExp>
-                      | <Call Variable>
-                      | '!' <Call Variable>
-                      
-<Poss_RelExp> ::= <AritmeticExp> <InequalExp> <EqualExp> |  RelationalLessPrec <AritmeticExp> | RelationalMorePrec <AritmeticExp> 
+<LogicalExp> ::= <RelationalExp>  <OptLogicalExp>
 
-<LogicalExp> ::= <RelationalExp> Logical_Operators <LogicalExp>
-               | '(' <LogicalExp> ')'
-               | <RelationalExp>
+<OptLogicalExp> ::= Logical_Operators <LogicalExp> 
+                 | <>
 
-<RelationalExp> ::= <AritmeticExp> <InequalExp> <EqualExp>                  
+<RelationalExp> ::= <AritmeticExp> <Poss_RelExp>
+                 | '(' <LogicalExp> ')'               
+
+<Poss_RelExp> ::= RelationalLessPrec <AritmeticExp> <InequalExp> <EqualExp> 
+               | RelationalMorePrec <AritmeticExp> <InequalExp>
                
 <EqualExp> ::= RelationalLessPrec <AritmeticExp> <InequalExp> <EqualExp>
              | <>
@@ -139,26 +144,26 @@ Boleanos = ( 'true' | 'false' )
                      | <>
                     
 <OpUnary> ::= <Unary_Op>
-            | <SubExp> 
+            | <Final_Value> 
             | '(' <AritmeticExp> ')'  
             
-<Unary_Op> ::= Unary_Operators <SubExp> | <SubExp> Unary_Operators | '!' <Call Variable> 
+<Unary_Op> ::= Unary_Operators <Final_Value> | <Final_Value> Unary_Operators | '!' <Call Variable> 
 
-<SubExp> ::=  <Call Variable> | <Number> | Boleanos
+<Final_Value> ::=  <Call Variable> | <Number> | Boleanos
         
-<Call Variable> ::= <Modifier> Identifier <Paths> 
-                  
-<Modifier> ::= Modifiers '.' | <>
+<Call Variable> ::= <Modifier> <Paths> 
+                 
+<Modifier> ::= Modifiers '.' Identifier | Identifier
 
 ! -------------------------------------------------------------------------------------------------------------------------
 !Estrutura do if/else
-<If Statement> ::= 'if' '('<Full_LogicalExp>')' 'then' '{'<Commands>'}' <Else Statement>
+<If Statement> ::= 'if' '('<Commands_Exp>')' 'then' '{'<Commands>'}' <Else Statement>
                 
 <Else Statement> ::= 'else' '{'<Commands>'}' | <>
               
 ! -------------------------------------------------------------------------------------------------------------------------
 !Estrutura do while
-<while Statement> ::= 'while' '('<Full_LogicalExp>')' '{'<Commands>'}'         
+<while Statement> ::= 'while' '('<Commands_Exp>')' '{'<Commands>'}'         
                    
 ! -------------------------------------------------------------------------------------------------------------------------
 !Estrutura do read
@@ -192,7 +197,7 @@ Boleanos = ( 'true' | 'false' )
 !Escopo da atribuição
 <Assignment> ::= <Call Variable> '=' <Assign2> ';' | <Unary_Op> ';'
               
-<Assign2> ::=  <Call Procedure_Function>
+<Assign2> ::= <Call Procedure_Function>
             | <Expression>
             | CadeCaracters 
 
@@ -206,7 +211,7 @@ Boleanos = ( 'true' | 'false' )
                
 ! -------------------------------------------------------------------------------------------------------------------------
 !Chamada de procedimentos
-<Call Procedure_Function> ::= Identifier '('<Real Param List>')' ';'
+<Call Procedure_Function> ::= Identifier '('<Real Param List>')'
 
 <Real Param List> ::= <Real Param> <More Real Param>
                     | <>

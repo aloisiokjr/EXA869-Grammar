@@ -3,7 +3,7 @@ const {
     boolean aux1 = true;
     real numeroAux = 4.478;
     string auxString = "Testando";
-}
+} 
 var {
     int auxNum, testeNum, next;
     string auxString;
@@ -24,21 +24,23 @@ function int start (){
     return 0;
 }
 
-function int mudaNum (real a){    
-	if (a < 2) then {
-        	a++;
-    	} else {
-        	if (a < 5) then {
-            	a = a + 2;
-        	} else {
-            		if (a < 10) then {
-               		a = a + 3;
-            		}
-        	}
-    	}
-    	return a;
+function inteiro mudaNum (real a){
+    var {}    
+    if ((a == c && c <= d)) then {
+            a++;
+        } else {
+            if (a < 5) then {
+                a = a.b.v.b * 3;
+            } else {
+                    if (a < 10) then {
+                    a = a + 3;
+                    }
+            }
+        }
+        return a;
 }
 
-procedure aumentaNum (int a){   
+procedure aumentaNum (int a){
+    var {}   
     a = a + 20;
 }
