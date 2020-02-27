@@ -39,9 +39,9 @@ Boleanos = ( 'true' | 'false' )
 <Number> ::= Plus_Minus <OptNumbers> | <OptNumbers> 
 
 <OptNumbers> ::= IntegerNumber | RealNumber
-          
+ 
 <Types> ::= Type | Identifier
-                   
+
 ! ------------------------------------------------------------------------------------------------------------------------- RULES
 !Escopo Global
 
@@ -104,7 +104,6 @@ Boleanos = ( 'true' | 'false' )
              
 <Command> ::= <If Statement> | <While Statement> | <Read Statement> | <Print Statement> 
              | <Assignment> | <Call Procedure_Function> ';'
-
 ! -------------------------------------------------------------------------------------------------------------------------                      
 !Escopo para expressões
 !--- Start de expressões para os casos do comando if e while --
@@ -125,13 +124,13 @@ Boleanos = ( 'true' | 'false' )
 
 <Poss_RelExp> ::= RelationalLessPrec <AritmeticExp> <InequalExp> <EqualExp> 
                | RelationalMorePrec <AritmeticExp> <InequalExp>
-               
-<EqualExp> ::= RelationalLessPrec <AritmeticExp> <InequalExp> <EqualExp>
+             
+<EqualityExp> ::= RelationalLessPrec <AritmeticExp> <InequalityExp> <EqualityExp>
              | <>
 
-<InequalExp> ::= RelationalMorePrec <AritmeticExp> <InequalExp> 
-               | <> 
-                         
+<InequalityExp> ::= RelationalMorePrec <AritmeticExp> <EqualityExp> 
+               | <>             
+                                        
 <AritmeticExp> ::= <Operation> <OpSum>
                  | '(' <RelationalExp> ')'
                  
@@ -157,12 +156,14 @@ Boleanos = ( 'true' | 'false' )
 
 ! -------------------------------------------------------------------------------------------------------------------------
 !Estrutura do if/else
+
 <If Statement> ::= 'if' '('<Commands_Exp>')' 'then' '{'<Commands>'}' <Else Statement>
                 
 <Else Statement> ::= 'else' '{'<Commands>'}' | <>
               
 ! -------------------------------------------------------------------------------------------------------------------------
 !Estrutura do while
+
 <while Statement> ::= 'while' '('<Commands_Exp>')' '{'<Commands>'}'         
                    
 ! -------------------------------------------------------------------------------------------------------------------------
@@ -211,6 +212,7 @@ Boleanos = ( 'true' | 'false' )
                
 ! -------------------------------------------------------------------------------------------------------------------------
 !Chamada de procedimentos
+
 <Call Procedure_Function> ::= Identifier '('<Real Param List>')'
 
 <Real Param List> ::= <Real Param> <More Real Param>
